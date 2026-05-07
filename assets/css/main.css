@@ -3503,4 +3503,7 @@ body.is-touch .image.thumb:before {
         width: 180px !important;
         height: 180px !important;
     }
+	body, h1, h2, h3, h4, p, a, span, strong, li {
+        font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif !important;
+    }
 }
