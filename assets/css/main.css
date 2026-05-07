@@ -3445,3 +3445,62 @@ body.is-leaving .page-leave-cover { opacity: 1; pointer-events: all; }
     .is-home .page-transition-wrap .transition-message::after { font-size: 1em; }
     .page-profile div[style*="text-align: center"] img { width: 180px !important; height: 180px !important; }
 }
+body.is-touch .image.thumb:before {
+    opacity: 0 !important;
+}
+
+@media screen and (max-width: 736px) {
+    .is-home #header::after {
+        width: 85vw;
+        height: 40vh;
+    }
+    .is-home #header .inner {
+        left: 0;
+        bottom: auto;
+        top: 10%;
+        width: 100%;
+        text-align: center;
+    }
+    .is-home #header h1 {
+        font-size: 1.4rem !important;
+        letter-spacing: 0.3em;
+    }
+    .is-home #header nav {
+        right: 0;
+        top: auto;
+        bottom: 8%;
+        transform: none;
+        width: 100%;
+    }
+    .is-home .global-nav {
+        align-items: center;
+        gap: 15px;
+    }
+    .is-home #header::before {
+        content: "THANK YOU FOR COMMING! \A THANK YOU FOR COMMING!";
+        white-space: pre;
+        font-size: 12vw;
+        line-height: 70vh;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    body:not(.is-home) .global-nav {
+        gap: 15px;
+        padding: 1.5em 0;
+        font-size: 0.85em;
+    }
+    #main {
+        padding: 2em 1.5em !important;
+    }
+    .is-home .transition-avatar {
+        width: 140px;
+        height: 140px;
+    }
+    .is-home .page-transition-wrap .transition-message::after {
+        font-size: 1em;
+    }
+    .page-profile div[style*="text-align: center"] img {
+        width: 180px !important;
+        height: 180px !important;
+    }
+}
