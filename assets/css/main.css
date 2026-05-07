@@ -3506,4 +3506,8 @@ body.is-touch .image.thumb:before {
 	body, h1, h2, h3, h4, p, a, span, strong, li {
         font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif !important;
     }
+    .is-home #header h1,
+    .global-nav a {
+        font-weight: 600 !important; 
+    }
 }
