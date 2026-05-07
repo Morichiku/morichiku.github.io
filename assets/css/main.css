@@ -3396,10 +3396,11 @@ body:not(.is-home) .transition-left {
 
 /* Page Variants */
 body.page-works { background-color: #f2eadc !important; }
-body.page-news { background-color: #fdfaf5 !important; }
+body.page-profile { background-color: #f2eadc !important; }
+body.page-news { background-color: #f2eadc !important; } 
+
 body.page-news .global-nav a:hover { color: #d4a017; }
 body.page-news .global-nav a::after { background-color: #d4a017; }
-body.page-profile { background-color: #f2eadc !important; }
 body.page-profile .global-nav a:hover { color: #2c5d63; }
 body.page-profile .global-nav a::after { background-color: #2c5d63; }
 
