@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Profile - Morichiku's Gallery</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css?v=2" />
+    <style>
+        #main #one .image img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 3em auto;
+            display: block;
+        }
+    </style>
+</head>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const leaveCover = document.createElement('div');
+    leaveCover.className = 'page-leave-cover';
+    document.body.appendChild(leaveCover);
+
+    const links = document.querySelectorAll('.global-nav a');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.href === window.location.href) return;
+            e.preventDefault(); 
+            const targetUrl = this.href;
+            document.body.classList.add('is-leaving');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        });
+    });
+});
+
+window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+        document.body.classList.remove('is-leaving');
+    }
+});
+</script>
+<body class="page-profile">
+   <div class="page-transition-wrap">
+        <div class="transition-left"></div>
+        <div class="transition-right"></div>
+        <div class="transition-message">
+            <div class="transition-avatar">
+                <img src="images/tori.png" alt="Avatar">
+            </div>
+        </div>
+    </div>
+
+    <header id="header">
+        <div class="inner"><h1>Morichiku's Gallery</h1></div>
+        <nav>
+            <ul class="global-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="news.html">News</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="main">
+        <section id="one">
+            <header class="major" style="text-align: center; margin-bottom: 3em;">
+                <h2>Profile / 自己紹介</h2>
+            </header>
+
+            <div style="text-align: center; margin-bottom: 3em;">
+                <img src="images/myface.jpeg" alt="もりちく" style="width: 250px; height: 250px; object-fit: cover; border-radius: 50%;" />
+                <h2 style="margin-top: 1em; font-weight: bold; margin-bottom: 0.2em;">もりちく (Tsubasa)</h2>
+                <a href="https://www.instagram.com/intsubagram?igsh=d2lieGVxMnBuZmN1&utm_source=qr" target="_blank" class="icon brands fa-instagram" style="font-size: 1.2em; color: #1c2b44; text-decoration: none; border-bottom: none;">
+                    <span style="font-size: 0.6em; margin-left: 5px; font-weight: bold; vertical-align: middle; letter-spacing: 0.1em;">INSTAGRAM</span>
+                </a>
+            </div>
+
+            <h3 style="border-bottom: 2px solid #02002d; padding-bottom: 0.5em; margin-bottom: 1em;">自己紹介</h3>
+            <p>抽象的な表現に、ほんの少しのユーモアを。<br>
+            パッと見てわかりやすく、思わず笑みがこぼれるような温かいイラストを制作しています。これまで主にイベント等の告知ポスターを手掛け、日常の風景を少しだけ楽しくするようなアートワークを目指しています。</p>
+
+            <h3 style="border-bottom: 2px solid #02002d; padding-bottom: 0.5em; margin-bottom: 1em; margin-top: 3em;">在籍/経歴</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 1em;"><strong>所属：</strong> 京都工芸繊維大学院 情報工学研究科<br>Human Interface Laboratory 在籍</li>
+                <li><strong>主な活動：</strong>
+                    <p style="margin-top: 0.5em; padding-left: 1em; border-left: 3px solid #02002d;">
+                    2022年：近畿大学工学部 入学<br>
+                    2023年：学生寮RA（レジデント・アシスタント）としてポスター制作を開始<br>
+                    2024年：芸術・イラスト同好会を設立（初代主将）<br>
+                    2026年：京都工芸繊維大学院 入学</p>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <site-footer id="site-footer">
+        <div class="inner">
+            <ul class="copyright">
+                <li>&copy; Morichiku's Gallery</li><li>Design based on: HTML5 UP</li>
+            </ul>
+        </div>
+    </site-footer>
+
+    <script src="assets/js/jquery.min.js"></script><script src="assets/js/jquery.poptrox.min.js"></script><script src="assets/js/browser.min.js"></script><script src="assets/js/breakpoints.min.js"></script><script src="assets/js/util.js"></script><script src="assets/js/main.js"></script>
+</body>
+</html>

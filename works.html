@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Works - My Gallery</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css?v=2" />
+   <style>
+        .page-transition-wrap { pointer-events: none !important; }
+        .image:before { 
+            display: block !important; 
+            opacity: 0 !important; 
+            background: #707070 !important; 
+            transition: opacity 0.3s ease !important; 
+        }
+        .image.thumb:hover:before { 
+            opacity: 0.6 !important; 
+        }
+    </style>
+</head>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const leaveCover = document.createElement('div');
+    leaveCover.className = 'page-leave-cover';
+    document.body.appendChild(leaveCover);
+
+    const links = document.querySelectorAll('.global-nav a');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.href === window.location.href) return;
+            e.preventDefault(); 
+            const targetUrl = this.href;
+            document.body.classList.add('is-leaving');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        });
+    });
+});
+
+window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+        document.body.classList.remove('is-leaving');
+    }
+});
+</script>
+
+<body class="page-works">
+   <div class="page-transition-wrap">
+        <div class="transition-left"></div>
+        <div class="transition-right"></div>
+        <div class="transition-message">
+            <div class="transition-avatar">
+                <img src="images/tori.png" alt="Avatar">
+            </div>
+        </div>
+    </div>
+
+    <header id="header">
+        <div class="inner"><h1>Morichiku's Gallery</h1></div>
+        <nav>
+            <ul class="global-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="news.html">News</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="main">
+        <section id="two">
+            <header class="major fade-in-up" style="text-align: center; margin-bottom: 4em;">
+                <h2>Works / 作品一覧</h2>
+            </header>
+            <div class="row">
+                
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/37b.png" class="image fit thumb"><img src="images/37a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">Welcome Rock!</h3>
+                    <p>新入生歓迎会に向けて描いたポスターです。エレキギターをかき鳴らす真っ赤な手で、新しい生活が始まるワクワクするエネルギーを表現しました。絵の中からジャーン！という音が飛び出してきそうな勢いを感じてください。<br>(大学イベント用ポスター/2025.4)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/1b.png" class="image fit thumb"><img src="images/1a.png" alt=""/></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">バドミントンカレー</h3>
+                    <p>近畿大学工学部、バドミントン部の屋台のポスター(看板)を担当しました!<br>(大学イベント用ポスター/2023.9)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/9b.png" class="image fit thumb"><img src="images/9a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">池の小さな映画館 〜雨上がりの上映会〜</h3>
+                    <p>寮の映画上映会のために描いた作品です。
+                        カエルやカタツムリたちが、自分たちの手で小さな映画館をオープンさせました。
+                        スクリーンにどんな映画が映るのでしょうか?<br>(寮イベント用ポスター/2023.5)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/10b.png" class="image fit thumb"><img src="images/10a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">完成!大きな映画館 ～夜空の下で上映会～</h3>
+                    <p>前作「池の小さな映画館」から一気にスケールアップ！
+                        カエルさん達、使われなくなったガラクタたちを寄せ集めて巨大な映画館を建設しました。
+                        手作りの温かみを感じられるような作品を目指しました。<br>(寮イベント用ポスター/2023.8)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/23b.png" class="image fit thumb"><img src="images/23a.png"  alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">ほっかほかクリスマス 〜サンタさんへの贈り物〜</h3>
+                    <p>いつもプレゼントを配ってくれるサンタさんに、小人さんから温かいお鍋のプレゼント！<br>(寮イベント用ポスター/2023.12)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/38b.png" class="image fit thumb"><img src="images/38a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">餃子を食べたい人はだーれ?</h3>
+                    <p>寮の餃子パーティーに向けて描いた一枚です。
+                        動物たちがテーブルを囲み、彼らよりもはるかに巨大な餃子を見つめる不思議な光景。
+                        みんなでワイワイ食卓を囲む楽しさを、絵本のような世界観で表現しました。<br>(寮イベント用ポスター/2024.11)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/11b.jpg" class="image fit thumb"><img src="images/11a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">てづくりハロウィン</h3>
+                    <p>折り紙をちぎって貼って制作しました!!<br>(寮イベント用ポスター/2024.10)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/19b.jpg" class="image fit thumb"><img src="images/19a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">Making-o'-Lantern</h3>
+                    <p>ハロウィンイベントに向けて制作しました。
+                        自分たちで作ったカボチャのランタン（ジャック・オー・ランタン）を、自慢げに見せてくる幽霊たち。
+                        誇らしげな彼らの表情はどこかかわいく見えてくるかもしれません。<br>(寮イベント用ポスター/2024.10)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/2b.png" class="image fit thumb"><img src="images/2a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">初めましてタコさん!</h3>
+                    <p>寮の歓迎イベント用に制作したポスターです。
+                        初心者マークをつけたタコさんたちが、たこ焼きを前に少し緊張している様子を描きました。
+                        新しい環境に飛び込むときの「ドキドキ感」を、寮の歓迎イベント用に制作したポスターです。
+                        初心者マークをつけたタコさんたちが、たこ焼きを前に少し緊張している様子を描きました。
+                        新しい環境に飛び込むときの「ドキドキ感」を、キャラクターに重ねています。<br>(寮イベント用ポスター/2023.4)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/3b.png" class="image fit thumb"><img src="images/3a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">歓迎感カウントダウン!</h3>
+                    <p>寮の歓迎イベントに向けて、毎日公開したカウントダウンイラストの一部です。
+                        数字とキャラクターを組み合わせた遊び心のあるデザインで、
+                        イベント当日までのワクワク感を少しずつ高めていく、
+                        時限式のエンターテインメントに挑戦しました!<br>(寮イベント用ポスター/2023.4)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/4b.png" class="image fit thumb"><img src="images/4a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">カウントダウン用イラスト(20～17日)</h3>
+                    <p>寮の歓迎イベントに向けて、毎日公開したカウントダウンイラストの一部です。
+                        数字とキャラクターを組み合わせた遊び心のあるデザインで、
+                        イベント当日までのワクワク感を少しずつ高めていく、
+                        時限式のエンターテインメントに挑戦しました!<br>(寮イベント用ポスター/2023.4)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/5b.png" class="image fit thumb"><img src="images/5a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">カウントダウン用イラスト(16～13日)</h3>
+                    <p>寮の歓迎イベントに向けて、毎日公開したカウントダウンイラストの一部です。
+                        数字とキャラクターを組み合わせた遊び心のあるデザインで、
+                        イベント当日までのワクワク感を少しずつ高めていく、
+                        時限式のエンターテインメントに挑戦しました!<br>(寮イベント用ポスター/2023.4)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/6b.png" class="image fit thumb"><img src="images/6a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">カウントダウン用イラスト(12～9日)</h3>
+                    <p>寮の歓迎イベントに向けて、毎日公開したカウントダウンイラストの一部です。
+                        数字とキャラクターを組み合わせた遊び心のあるデザインで、
+                        イベント当日までのワクワク感を少しずつ高めていく、
+                        時限式のエンターテインメントに挑戦しました!<br>(寮イベント用ポスター/2023.4)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/7b.png" class="image fit thumb"><img src="images/7a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">カウントダウン用イラスト(7～1日)</h3>
+                    <p>寮の歓迎イベントに向けて、毎日公開したカウントダウンイラストの一部です。
+                        数字とキャラクターを組み合わせた遊び心のあるデザインで、
+                        イベント当日までのワクワク感を少しずつ高めていく、
+                        時限式のエンターテインメントに挑戦しました!<br>(寮イベント用ポスター/2023.4)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/12b.jpg" class="image fit thumb"><img src="images/12a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">母への気持ちを載せて...</h3>
+                    <p>家族への感謝の手紙をテーマに描いた作品です。
+                        大切なお手紙を、落とさないようにしっかりとくわえて届ける姿を描きました。<br>(寮イベント用ポスター/2024.5)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/13b.jpg" class="image fit thumb"><img src="images/13a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">寮母さんへご配達</h3>
+                    <p>寮母さんへの感謝の手紙をテーマに描いた作品です。寮母さんは寮生さんの母です。<br>(寮イベント用ポスター/2024.5)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/14b.jpg" class="image fit thumb"><img src="images/14a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">父への気持ちを載せて...</h3>
+                    <p>家族への感謝の手紙をテーマに描いた作品です。<br>(寮イベント用ポスター/2024.6)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/15b.jpeg" class="image fit thumb"><img src="images/15a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">寮長さんへご配達</h3>
+                    <p>寮長寮母さんへの感謝の手紙をテーマに描いた作品です。寮長さんは寮生さんの父です。<br>(寮イベント用ポスター/2024.6)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/18b.png" class="image fit thumb"><img src="images/18a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">DRAW!</h3>
+                    <p>芸術・イラスト同好会を設立した際に描いた、シンボル的なイラストです。
+                       <br>(同好会設立用イラスト/2024.6)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/34b.png" class="image fit thumb"><img src="images/34a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">我らが芸術・イラスト同好会!</h3>
+                    <p>芸術・イラスト同好会を設立した際に描いた、シンボル的なイラストです。
+                        少しレトロで温かみのある雰囲気にこだわりました。<br>(同好会設立用イラスト/2024.10)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/35b.png" class="image fit thumb"><img src="images/35a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">3歩、歩いちゃった?</h3>
+                    <p>ポスターのワンポイント用に描いたイラストです。
+                        「3歩歩くと忘れる」と言われるニワトリの習性を、「？」に見える鶏冠と、とぼけた表情でユーモラスに切り取りました。(ポスター挿入用イラスト/2023.10)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/16b.jpg" class="image fit thumb"><img src="images/16a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">1%のひらめき!</h3>
+                    <p>ポスターの挿し絵として制作しました。
+                        見ていると、何か素敵なアイデアが降ってくるかもしれません。<br>(ポスター挿入用イラスト/2023.11)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/17b.jpg" class="image fit thumb"><img src="images/17a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">おはよう!朝食にパンはいかが?</h3>
+                    <p>ポスターのワンポイントとして描いたイラストです。
+                        目覚まし時計がなるのと同時に、こんがり焼けた食パンが飛び出してきました!(ポスター挿入用イラスト/2023.11)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/36b.png" class="image fit thumb"><img src="images/36a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">フレンチトーストはいかが?</h3>
+                    <p>(個人制作作品/2025.4)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/24b.png" class="image fit thumb"><img src="images/24a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">初めまして!たこ焼きで乾杯!</h3>
+                    <p>たこ焼きパーティー用に描いたポスターです。
+                        グラスではなく、熱々のたこ焼き同士をぶつけて乾杯!
+                        これから始まる新しい出会いへの期待を詰め込みました。<br>(寮イベント用ポスター/2024.4)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/8b.png"  class="image fit thumb"><img src="images/8a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">Thank You for comming!</h3>
+                    <p>イベントに来てくれた人に、「ありがとう」を...<br>(寮イベント用ポスター/2024.4)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/33b.jpeg" class="image fit thumb"><img src="images/33a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">お世話になりました!調理員さん!</h3>
+                    <p>長年美味しいご飯を作ってくださった寮の調理員さんへ、感謝を込めて贈ったイラストです。
+                        大きなスプーンを抱えて微笑む姿は、いつも寮生のお腹と心を満たしてくれた優しさそのものです。<br>(個人制作作品/2024.8)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/40b.jpeg" class="image fit thumb"><img src="images/40a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">お世話になりました!寮長・寮母さん!</h3>
+                    <p>寮生活を温かく支えてくださった寮長さんと寮母さんへ贈ったイラストです。馬に引かれた台車で、熱々のお鍋と一緒に元気に旅立つお二人。
+                       これまでの深い感謝を、温かい色使いで一枚の絵に込めました。<br>(個人制作作品/2025.9)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/29b.png" class="image fit thumb"><img src="images/29a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">あけおめ!2023</h3>
+                    <p>2023年度、年賀状用イラスト<br>(個人制作作品/2023.1)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/30b.png" class="image fit thumb"><img src="images/30a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">あけおめ!2024</h3>
+                    <p>2024年度、年賀状用イラスト<br>(個人制作作品/2024.1)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/31b.jpeg" class="image fit thumb"><img src="images/31a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">あけおめ!2025</h3>
+                    <p>2025年度、年賀状用イラスト<br>(個人制作作品/2025.1)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/32b.jpeg" class="image fit thumb"><img src="images/32a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">あけおめ!2026</h3>
+                    <p>2026年度、年賀状用イラスト<br>(個人制作作品/2026.1)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/22b.jpeg" class="image fit thumb"><img src="images/22a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">Even ghosts fell the Chill.</h3>
+                    <p>大学祭の出展用に制作した一枚です。「ゾクゾクッとするお化けでも、やっぱり真冬の寒さには敵わない」というシチュエーションで描きました。
+                    土や葉っぱ、自分の死体からできた雪だるまと、隣に並ぶお化けの、どこか人間らしい愛嬌にこだわりました。(大学祭出展用作品/2025.10)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/39b.PNG" class="image fit thumb"><img src="images/39a.PNG" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">La gourmand!</h3>
+                    <p>大事な人へ...<br>(個人制作作品/2026.4)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/25b.jpg" class="image fit thumb"><img src="images/25a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">自転車泥棒!!!</h3>
+                    <p>寮内の防犯ポスターとして描いた一枚です。満面の笑みで自転車を持ち去るという、どこか憎めない泥棒の姿を描きました。「ちゃんと鍵をかけなきゃ！」というメッセージを、ユーモアで包んで届けています。<br>(寮内掲示用イラスト/2024.10)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/20b.jpg" class="image fit thumb"><img src="images/20a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">Find Ghosts</h3>
+                    <p>"Let's play hide-and-seek..."
+                        寮のあちこちに隠れた彼らを探すワクワク感を、そのままイラストに閉じ込めました。<br>(寮イベント用ポスター/2023.10)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/21b.jpg" class="image fit thumb"><img src="images/21a.jpg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">Find Ghosts用イラスト</h3>
+                    <p>寮のイベント用に、たくさん(13人)のお化けたちをデザインしました。
+                        怖いというより、どこかお茶目で個性豊かなキャラクターにしあげました!13人目はすこーし怖いかも...<br>(寮イベント用ポスター/2023.10)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/26b.jpeg" class="image fit thumb"><img src="images/26a.jpeg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">鬼探し</h3>
+                    <p>筆で書いたような、和風のテイストに仕上げました。<br>(寮イベント用ポスター/2024.2)</p>
+                </article>
+
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/27b.jpeg" class="image fit thumb"><img src="images/27a.jpeg" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">鬼探し用イラスト(1～6人目)</h3>
+                    <p>寮のイベント用に、たくさん(10人)の鬼たちをデザインしました。
+                        実際に神話や伝説上にいる鬼をかわいらしくデザインしました。<br>(寮イベント用ポスター/2024.2)</p>
+                </article>
+                <article class="col-6 col-12-xsmall work-item fade-in-up">
+                    <a href="images/28b.jpeg" class="image fit thumb"><img src="images/28a.png" alt="" /></a>
+                    <h3 style="margin-top: 1em; font-size: 1.5em;">鬼探し用イラスト(7～10人目)</h3>
+                    <p>寮のイベント用に、たくさん(10人)の鬼たちをデザインしました。
+                        実際に神話や伝説上にいる鬼をかわいらしくデザインしました。<br>(寮イベント用ポスター/2024.2)</p>
+                </article>
+            </div>
+            
+        </section>
+    </div>
+
+<site-footer id="site-footer">
+    <div class="inner">
+        <ul class="copyright">
+            <li>&copy; Morichiku's Gallery</li>
+            <li>Design based on: HTML5 UP</li>
+        </ul>
+    </div>
+</site-footer>
+
+    <script src="assets/js/jquery.min.js"></script><script src="assets/js/jquery.poptrox.min.js"></script><script src="assets/js/browser.min.js"></script><script src="assets/js/breakpoints.min.js"></script><script src="assets/js/util.js"></script><script src="assets/js/main.js"></script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: "0px 0px -10% 0px" });
+
+        const targets = document.querySelectorAll('.fade-in-up');
+        targets.forEach(target => observer.observe(target));
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Morichiku's Gallery</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css?v=2" />
+</head>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const leaveCover = document.createElement('div');
+    leaveCover.className = 'page-leave-cover';
+    document.body.appendChild(leaveCover);
+
+    const links = document.querySelectorAll('.global-nav a');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.href === window.location.href) return;
+            e.preventDefault(); 
+            const targetUrl = this.href;
+            document.body.classList.add('is-leaving');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        });
+    });
+});
+
+window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+        document.body.classList.remove('is-leaving');
+    }
+});
+</script>
+<body class="is-preload is-home">
+    <div class="page-transition-wrap">
+        <div class="transition-left"></div>
+        <div class="transition-right"></div>
+        <div class="transition-message">
+            <div class="transition-avatar">
+                <img src="images/tori.png" alt="Avatar">
+            </div>
+        </div>
+    </div>
+    <header id="header">
+        <div class="header-content-box">
+            <div class="inner">
+                <h1>Morichiku's<br>Gallery</h1>
+            </div>
+            <nav>
+                <ul class="global-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="works.html">Works</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="news.html">News</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <site-footer id="site-footer">
+        <div class="inner">
+            <ul class="copyright">
+                <li>&copy; Morichiku's Gallery</li><li>Design based on: HTML5 UP</li>
+            </ul>
+        </div>
+    </site-footer>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.poptrox.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
