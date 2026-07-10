@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Works - My Gallery</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css?v=2" />
+   <style>
+        .page-transition-wrap { pointer-events: none !important; }
+        .image:before { 
+            display: block !important; 
+            opacity: 0 !important; 
+            background: #707070 !important; 
+            transition: opacity 0.3s ease !important; 
+        }
+        .image.thumb:hover:before { 
+            opacity: 0.6 !important; 
+        }
+    </style>
+</head>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const leaveCover = document.createElement('div');
+    leaveCover.className = 'page-leave-cover';
+    document.body.appendChild(leaveCover);
+
+    const links = document.querySelectorAll('.global-nav a');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.href === window.location.href) return;
+            e.preventDefault(); 
+            const targetUrl = this.href;
+            document.body.classList.add('is-leaving');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        });
+    });
+});
+
+window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+        document.body.classList.remove('is-leaving');
+    }
+});
+</script>
+
+<body class="page-works">
+   <div class="page-transition-wrap">
+        <div class="transition-left"></div>
+        <div class="transition-right"></div>
+        <div class="transition-message">
+            <div class="transition-avatar">
+                <img src="images/tori.png" alt="Avatar">
+            </div>
+        </div>
+    </div>
+
+    <header id="header">
+        <div class="inner"><h1>Morichiku's Gallery</h1></div>
+        <nav>
+            <ul class="global-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="games.html">Games</a></li> 
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="news.html">News</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="main">
+        <section id="two">
+            <header class="major fade-in-up" style="text-align: center; margin-bottom: 4em;">
+    <h2>Games / ゲーム作品</h2>
+    
+</header>
+<article class="col-6 col-12-xsmall work-item fade-in-up" style="position: relative;">
+    
+    <!-- 画像とアイコン -->
+    <div class="image fit" style="border-radius: 8px; overflow: visible; margin-bottom: 1.5em; position: relative;">
+        <!-- プレイ画面 -->
+        <img src="images/game2.png" alt="プレイ画面" style="border-radius: 8px; width: 100%; box-shadow: 0 4px 15px rgba(28, 43, 68, 0.1);" />
+        
+        <!-- アイコンを右下にちょこんと乗せる -->
+        <img src="images/game1.png" alt="アイコン" style="position: absolute; bottom: -20px; right: -20px; width: 90px; height: 90px; border-radius: 20px; border: 5px solid #f2eadc; box-shadow: 0 6px 12px rgba(0,0,0,0.15);" />
+    </div>
+    
+    <!-- タイトルと説明 -->
+    <h3 style="margin-top: 1.5em; font-size: 1.5em; font-weight: bold; color: #1c2b44;">Chew! Blow! Poo!</h3>
+    <p style="color: #1c2b44; font-size: 0.9em; line-height: 1.7;">
+    【食べすぎ注意！「食べる・吹く・出す」で生き残る、ドタバタねずみアクション！】<br>
+食いしん坊なねずみを操作してハイスコアを目指す、やみつき2Dアクションゲーム！温かみのある「動く絵本」のような世界観にこだわりました。<br>
+●食べてスコアアップ、危険なものは回避！<br>
+次々と流れてくるアイテムを瞬時に見極めよう。美味しいものを食べればスコアアップしますが、へんなものや「猫のしっぽ」にはご用心！<br>
+●限界前に「出して」生き残れ！<br>
+食べ続けるとねずみがどんどん太ってしまい、そのままでは気絶してしまいます！太り具合に気を配り、限界が来る前に「うんち」を出してスッキリしましょう。<br><br>
+
+「食べる・吹く・出す」の絶妙なタイミングを見極め、ドタバタサバイバルを生き残れ！
+    <!-- プレイボタン -->
+    <div style="text-align: left; margin-top: 1.5em;">
+        <a href="https://unityroom.com/games/chew-blow-poo" target="_blank" class="button primary" style="background-color: #1c2b44; color: #fdfaf5 !important; border-radius: 25px; padding: 0 1.5em; font-size: 0.9em; border: none; box-shadow: 0 4px 10px rgba(28, 43, 68, 0.2);">
+            <i class="fas fa-gamepad" style="margin-right: 0.5em;"></i> Play for free now!(Unityroom)
+        </a>
+    </div>
+
+</article>
+
+        </section>
+    </div>
+
+<site-footer id="site-footer">
+    <div class="inner">
+        <ul class="copyright">
+            <li>&copy; Morichiku's Gallery</li>
+            <li>Design based on: HTML5 UP</li>
+        </ul>
+    </div>
+</site-footer>
+
+    <script src="assets/js/jquery.min.js"></script><script src="assets/js/jquery.poptrox.min.js"></script><script src="assets/js/browser.min.js"></script><script src="assets/js/breakpoints.min.js"></script><script src="assets/js/util.js"></script><script src="assets/js/main.js"></script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: "0px 0px -10% 0px" });
+
+        const targets = document.querySelectorAll('.fade-in-up');
+        targets.forEach(target => observer.observe(target));
+    });
+    </script>
+</body>
+</html>
