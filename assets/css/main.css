@@ -3449,13 +3449,12 @@ body.is-leaving .page-leave-cover { opacity: 1; pointer-events: all; }
 body.is-touch .image.thumb:before {
     opacity: 0 !important;
 }
-
 @media screen and (max-width: 736px) {
-    /* 中央の画像を少しだけ小さく＆上にずらして文字との被りを防ぐ */
+    /* 画像を大きくし、位置を調整 */
     .is-home #header::after {
-        width: 85vw;
-        height: 35vh;  /* 40vhから少し縮小 */
-        top: 45%;      /* 上方向に少しずらす */
+        width: 90vw;   /* 85vw から少し拡大 */
+        height: 45vh;  /* 35vh からグッと拡大 */
+        top: 48%;      /* 上下の真ん中あたりに微調整 */
     }
     .is-home #header .inner {
         left: 0;
