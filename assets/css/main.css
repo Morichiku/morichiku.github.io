@@ -3451,9 +3451,11 @@ body.is-touch .image.thumb:before {
 }
 
 @media screen and (max-width: 736px) {
+    /* 中央の画像を少しだけ小さく＆上にずらして文字との被りを防ぐ */
     .is-home #header::after {
         width: 85vw;
-        height: 40vh;
+        height: 35vh;  /* 40vhから少し縮小 */
+        top: 45%;      /* 上方向に少しずらす */
     }
     .is-home #header .inner {
         left: 0;
@@ -3466,16 +3468,22 @@ body.is-touch .image.thumb:before {
         font-size: 1.4rem !important;
         letter-spacing: 0.3em;
     }
+    /* ナビゲーション全体を少し下にずらす */
     .is-home #header nav {
         right: 0;
         top: auto;
-        bottom: 8%;
+        bottom: 5%;    /* 8%から5%に下げて余裕を持たせる */
         transform: none;
         width: 100%;
     }
+    /* ★ここでメニューの行間を狭くする */
     .is-home .global-nav {
         align-items: center;
-        gap: 15px;
+        gap: 5px;    
+    }
+    /* テキスト自体の見えない余白（行高）を詰める */
+    .is-home .global-nav a {
+        line-height: 1.2; 
     }
     .is-home #header::before {
         content: "THANK YOU FOR COMMING! \A THANK YOU FOR COMMING!";
