@@ -1,1221 +1,632 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Activities - Morichiku's Gallery</title>
-    <link rel="icon" type="image/png" href="images/kao.PNG">
-    <link rel="apple-touch-icon" href="images/kao.PNG">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="assets/css/main.css?v=3" />
-    <style>
-        /* =========================================
-           Activities Page - Simplified & Clean Code
-        ========================================= */
-        body.page-activities { background-color: #f2eadc !important; }
-        body.page-activities #main { max-width: 960px !important; }
-        body.page-activities .global-nav a:hover { color: #d63d33; }
-        body.page-activities .global-nav a::after { background-color: #d63d33; }
-
-        .activities-intro {
-            text-align: center;
-            max-width: 660px;
-            margin: 0 auto 2.5em auto;
-            color: #1c2b44;
-            font-size: 0.95em;
-            line-height: 1.9;
-        }
-        /* 補足説明枠：基本スタイル */
-        .team-credit-note {
-            margin: -0.3em auto 3em auto;
-            padding: 0.3em 0 0.3em 1.1em;
-            border-left: 2.5px solid rgba(28, 43, 68, 0.5);
-            line-height: 1.8;
-            color: #2c3a52;
-            position: relative;
-            z-index: 2;
-        }
-        .team-credit-note strong {
-            color: #1c2b44 !important;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 0.2em;
-        }
-        /* 単体イラスト制作の補足枠：小さめ */
-        .team-credit-note.note-artwork {
-            max-width: 560px;
-            font-size: 0.78em;
-            border-left-width: 2px;
-        }
-        .team-credit-note.note-artwork strong {
-            font-size: 1.02em;
-        }
-        /* 学生寮RA（3人チーム）の補足枠：単体イラスト枠より大きく、前回より少しだけ小さめ */
-        .team-credit-note.note-ra-team {
-            max-width: 630px;
-            font-size: 0.88em;
-        }
-        .team-credit-note.note-ra-team strong {
-            font-size: 1.05em;
-        }
-
-        .timeline-wrapper { position: relative; padding: 0.5em 0 2em 0; }
-
-        /* フェーズ見出し（年代・サブタイトル）を大きめに調整 */
-        .phase-divider {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            margin: 2.8em auto 2.4em auto;
-            background: #f2eadc;
-            padding: 0.8em 1.8em;
-            display: table;
-        }
-        .phase-divider:first-child { margin-top: 0; }
-        .phase-period {
-            font-size: 1.45em;
-            font-weight: bold;
-            letter-spacing: 0.16em;
-            color: #1c2b44;
-            border-bottom: 2px solid #1c2b44;
-            padding-bottom: 5px;
-        }
-        .phase-label {
-            display: block;
-            font-size: 1.02em;
-            color: #4a586e;
-            margin-top: 0.55em;
-            letter-spacing: 0.06em;
-            font-weight: bold;
-        }
-
-        .branch-guide {
-            position: relative;
-            z-index: 3;
-            display: flex;
-            justify-content: space-between;
-            max-width: 520px;
-            margin: -0.2em auto 1.8em auto;
-            font-size: 0.82em;
-            font-weight: bold;
-            letter-spacing: 0.08em;
-        }
-        .branch-guide span { background: #f2eadc; padding: 0.15em 0.8em; }
-        .branch-left { color: #1c2b44; }
-        .branch-right { color: #d63d33; }
-
-        /* 1列フェーズ（日付→画像→下に説明文） */
-        .timeline-single {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .timeline-single::before {
-            display: none;
-        }
-        .timeline-parallel::before,
-        .timeline-right-only::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1.5px;
-            background: rgba(28, 43, 68, 0.2);
-            z-index: 0;
-        }
-        .timeline-right-only::before { background: rgba(214, 61, 51, 0.24); }
-
-        .tl-node.center-node {
-            width: calc(50% - 28px);
-            margin: 0 auto;
-            background: #f2eadc;
-            padding: 0.4em 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* 1列区間のS字足跡SVG */
-        .s-curve-connector {
-            width: 100%;
-            height: 380px;
-            margin-top: -185px;
-            margin-bottom: -115px;
-            display: block;
-            position: relative;
-            z-index: 3;
-            pointer-events: none;
-            overflow: visible;
-        }
-
-        .branch-connector-svg {
-            width: 100%;
-            max-width: 560px;
-            height: 64px;
-            margin: -0.4em auto 0.4em auto;
-            display: block;
-            position: relative;
-            z-index: 2;
-        }
-        .branch-connector-svg .branch-line { fill: none; stroke-width: 1.5; }
-
-        /* 2列並走フェーズ */
-        .timeline-parallel,
-        .timeline-right-only {
-            position: relative;
-            z-index: 1;
-            display: grid;
-            grid-template-columns: calc(50% - 28px) calc(50% - 28px);
-            justify-content: space-between;
-            align-items: stretch;
-        }
-        .timeline-right-only { align-items: start; }
-        .parallel-stream-col { display: flex; flex-direction: column; width: 100%; }
-        .parallel-stream-col.left-stream { grid-column: 1; }
-        .parallel-stream-col.right-stream { grid-column: 2; }
-
-        .tl-node.left-node,
-        .tl-node.right-node { width: 100%; position: relative; z-index: 2; }
-        .tl-node.left-node::before,
-        .tl-node.right-node::before {
-            content: '';
-            position: absolute;
-            top: 18px;
-            width: 28px;
-            height: 1px;
-            background: rgba(28, 43, 68, 0.22);
-            z-index: 1;
-        }
-        .tl-node.left-node::before { right: -28px; }
-        .tl-node.right-node::before { left: -28px; background: rgba(214, 61, 51, 0.28); }
-
-        .col-straight-steps {
-            width: 240px;
-            height: 100px;
-            margin: 0.3em auto;
-            display: block;
-            overflow: visible;
-        }
-        .club-continuation-bridge {
-            flex: 1;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            padding-top: 0.4em;
-            min-height: 800px;
-        }
-        .club-continuous-svg { width: 240px; height: 100%; display: block; overflow: visible; }
-
-        /* 足跡アニメーション（ゆっくり出現） */
-        .step-fp, .bridge-step {
-            opacity: 0;
-            transform-box: fill-box;
-            transform-origin: center;
-            transform: scale(0.25);
-            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .observe-steps.is-visible .step-fp,
-        .bridge-step.is-step-visible {
-            opacity: 0.52;
-            transform: scale(1);
-        }
-        .fp-ra { fill: #1c2b44; }
-        .fp-club { fill: #d63d33; }
-        .fp-grad { fill: #2c5d63; }
-
-        /* ヘッダー・日付 */
-        .node-meta {
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 9px;
-            margin-bottom: 0.55em;
-            line-height: 1.2;
-        }
-        .node-num {
-            font-family: "Courier New", monospace;
-            font-size: 0.8em;
-            font-weight: bold;
-            color: #8c96a6;
-        }
-        .node-date {
-            font-size: 1.35em;
-            font-weight: bold;
-            color: #1c2b44;
-            letter-spacing: 0.06em;
-            font-family: "Source Sans Pro", Helvetica, sans-serif;
-        }
-        .node-cat {
-            font-size: 0.68em;
-            font-weight: bold;
-            padding: 0.12em 0.65em;
-            border-radius: 20px;
-            letter-spacing: 0.05em;
-            transform: translateY(-2px);
-        }
-        .cat-ra { color: #1c2b44; border: 1px solid rgba(28, 43, 68, 0.32); background: rgba(253, 250, 245, 0.65); }
-        .cat-club { color: #d63d33; border: 1px solid rgba(214, 61, 51, 0.38); background: rgba(253, 250, 245, 0.65); }
-        .cat-grad { color: #2c5d63; border: 1px solid rgba(44, 93, 99, 0.38); background: rgba(253, 250, 245, 0.65); }
-
-        /* 画像枠（元比率維持・1列と2列でサイズ統一） */
-        .node-visuals {
-            display: grid;
-            gap: 10px;
-            margin-bottom: 0.9em;
-            align-items: start;
-        }
-        .node-visuals.cols-1 { grid-template-columns: 1fr; }
-        .node-visuals.cols-2 { grid-template-columns: repeat(2, 1fr); }
-        /* 同好会展示用：上1枚＋下2枚 */
-        .node-visuals.cols-3 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .node-visuals.cols-3 .visual-frame:first-child { grid-column: 1 / -1; }
-        /* ハロウィン3大企画ポスター用：横3枚並び */
-        .node-visuals.cols-3-row { grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: center; }
-
-        .node-sub-visuals {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            width: 84%;
-            margin: -0.2em auto 0.9em auto;
-        }
-        .visual-frame {
-            position: relative;
-            width: 100%;
-            border-radius: 6px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .visual-frame img {
-            width: auto;
-            max-width: 325px;
-            height: auto;
-            max-height: 255px;
-            border-radius: 6px;
-            border: 3px solid #fdfaf5;
-            box-shadow: 0 5px 16px rgba(28, 43, 68, 0.08);
-            display: block;
-            margin: 0 auto;
-        }
-        .node-visuals.cols-3 .visual-frame:first-child img { max-width: 325px; max-height: 245px; }
-        .node-visuals.cols-2 .visual-frame img,
-        .node-visuals.cols-3 .visual-frame:not(:first-child) img { max-width: 100%; max-height: 185px; }
-        .node-visuals.cols-3-row .visual-frame img { max-width: 100%; max-height: 165px; }
-        .node-sub-visuals .visual-frame img { max-width: 100%; max-height: 135px; }
-
-        /* Kyoto Design Lab（#21）：タイトルのすぐ右隣に小さな画像枠を配置 */
-        .lab-title-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-            margin-bottom: 0.55em;
-        }
-        .lab-title-row .node-title {
-            margin: 0 !important;
-            flex: 1;
-        }
-        .lab-title-row .small-lab-inline {
-            width: auto;
-            max-width: 125px;
-            flex-shrink: 0;
-        }
-        .lab-title-row .small-lab-inline img {
-            max-width: 125px;
-            max-height: 88px;
-            border-width: 2.5px;
-        }
-        .lab-title-row .small-lab-inline.is-placeholder {
-            width: 115px;
-            min-height: 76px;
-            padding: 0.4em;
-        }
-        /* スマホ表示時の2列区間見出しラベル（PCでは非表示） */
-        .mobile-stream-label {
-            display: none;
-        }
-
-        .visual-frame.is-placeholder {
-            background: rgba(253, 250, 245, 0.45);
-            border: 1.5px dashed rgba(28, 43, 68, 0.22);
-            min-height: 140px;
-            flex-direction: column;
-            padding: 1em 0.6em;
-            text-align: center;
-        }
-        .node-sub-visuals .visual-frame.is-placeholder { min-height: 92px; padding: 0.6em; }
-        .placeholder-info { display: none; flex-direction: column; align-items: center; }
-        .visual-frame.is-placeholder .placeholder-info { display: flex; }
-        .placeholder-info i { font-size: 1.15em; color: rgba(28, 43, 68, 0.38); margin-bottom: 0.25em; }
-        .placeholder-info span { font-size: 0.68em; line-height: 1.35; color: #556278; font-weight: bold; }
-        .placeholder-info small { margin-top: 2px; font-family: "Courier New", monospace; font-size: 0.62em; color: #8c96a6; }
-
-        .node-body { padding: 0 0.1em; }
-        .node-title { font-size: 1.05em; font-weight: bold; color: #1c2b44 !important; margin: 0 0 0.35em 0; line-height: 1.45; }
-        .node-desc { font-size: 0.84em; line-height: 1.8; color: #3b485e; margin: 0; }
-        .node-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 0.55em;
-            font-size: 0.78em;
-            font-weight: bold;
-            color: #1c2b44;
-            border-bottom: 1px solid rgba(28, 43, 68, 0.4);
-        }
-        .node-link:hover { color: #d63d33 !important; border-bottom-color: #d63d33; }
-
-        /* 一番下の細い一言メッセージ */
-        .activities-closing-line {
-            max-width: 680px;
-            margin: 4em auto 1em auto;
-            padding: 0.85em 1.5em;
-            border-top: 1px solid rgba(28, 43, 68, 0.28);
-            border-bottom: 1px solid rgba(28, 43, 68, 0.28);
-            text-align: center;
-            font-size: 0.9em;
-            font-weight: bold;
-            color: #1c2b44;
-            letter-spacing: 0.08em;
-            line-height: 1.8;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ゆっくりフェードイン（3.2秒） */
-        .fade-in-up {
-            opacity: 0;
-            filter: blur(6px);
-            transform: translateY(30px);
-            transition: opacity 3.2s cubic-bezier(0.22, 1, 0.36, 1),
-                        filter 3.2s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 3.2s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .fade-in-up.is-visible { opacity: 1 !important; filter: blur(0) !important; transform: translateY(0) !important; }
-
-        @media screen and (max-width: 768px) {
-            .branch-connector-svg, .branch-guide, .club-continuation-bridge { display: none; }
-            .timeline-parallel::before, .timeline-right-only::before { left: 10px; transform: none; }
-            .phase-divider { text-align: center; margin: 2.2em auto 1.6em auto; padding: 0.5em 0.8em; display: block; }
-            .phase-period { font-size: 1.2em; }
-            .phase-label { font-size: 0.86em; }
-            .team-credit-note.note-artwork { font-size: 0.76em; }
-            .team-credit-note.note-ra-team { font-size: 0.84em; }
-            .timeline-single { display: flex; flex-direction: column; gap: 0.5em; padding-left: 0; }
-            .timeline-parallel, .timeline-right-only { display: flex; flex-direction: column; gap: 1.8em; padding-left: 26px; }
-            .parallel-stream-col { gap: 0.6em; }
-            .mobile-stream-label {
-                display: inline-block;
-                font-size: 0.82em;
-                font-weight: bold;
-                padding: 0.25em 0.9em;
-                border-radius: 20px;
-                margin: 0.8em 0 0.6em 0;
-                align-self: flex-start;
-            }
-            .mobile-stream-label.label-ra { background: rgba(28, 43, 68, 0.1); color: #1c2b44; }
-            .mobile-stream-label.label-club { background: rgba(214, 61, 51, 0.12); color: #d63d33; margin-top: 2em; }
-            .tl-node.center-node, .tl-node.left-node, .tl-node.right-node { width: 100%; max-width: 100%; margin: 0; padding: 0; }
-            .tl-node.left-node::before, .tl-node.right-node::before { left: -16px; right: auto; width: 12px; }
-            .s-curve-connector { height: 76px !important; margin: 0.2em auto !important; max-width: 240px; }
-            .col-straight-steps { height: 72px; margin: 0.2em auto; }
-            .node-sub-visuals { width: 92%; }
-            .visual-frame img { max-width: 100%; max-height: 230px; }
-            .node-visuals.cols-3-row .visual-frame img { max-height: 125px; }
-            .lab-title-row { gap: 10px; }
-            .lab-title-row .small-lab-inline { max-width: 100px; }
-            .lab-title-row .small-lab-inline img { max-width: 100px; max-height: 72px; }
-        }
-    </style>
+  <title>Activities - Morichiku's Gallery</title>
+  <link rel="icon" type="image/png" href="images/kao.PNG">
+  <link rel="apple-touch-icon" href="images/kao.PNG">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css?v=3" />
+  <style>
+    body.page-activities { background-color: #f2eadc !important; }
+    body.page-activities #main { max-width: 960px !important; }
+    body.page-activities .global-nav a:hover { color: #d63d33; }
+    body.page-activities .global-nav a::after { background-color: #d63d33; }
+    .activities-intro { text-align: center; max-width: 660px; margin: 0 auto 5em; color: #1c2b44; font-size: 0.95em; line-height: 1.9; }
+    .team-credit-note { margin: -0.3em auto 3em; padding: 0.3em 0 0.3em 1.1em; border-left: 2.5px solid rgba(28,43,68,0.5); line-height: 1.8; color: #2c3a52; position: relative; z-index: 2; }
+    .team-credit-note strong { color: #1c2b44 !important; font-weight: bold; display: inline-block; margin-bottom: 0.2em; }
+    /* 単体イラスト制作の補足枠（UNTIL MOM COMES HOMEの下・小さめ配置） */
+    .team-credit-note.note-artwork { max-width: 480px; margin: 2.8em auto -1.2em; padding: 0.2em 0 0.2em 0.9em; font-size: 0.72em; line-height: 1.7; border-left: 2px solid rgba(28,43,68,0.38); transform: translateX(42px); }
+    .team-credit-note.note-artwork strong { font-size: 1.02em; margin-bottom: 0.15em; }
+    /* 学生寮RA（3人チーム）の補足枠 */
+    .team-credit-note.note-ra-team { max-width: 630px; font-size: 0.88em; }
+    .team-credit-note.note-ra-team strong { font-size: 1.05em; }
+    .timeline-wrapper { position: relative; padding: 0.5em 0 2em; }
+    .phase-divider { position: relative; z-index: 3; text-align: center; margin: 2.8em auto 2.4em; background: #f2eadc; padding: 0.8em 1.8em; display: table; }
+    .phase-divider:first-child { margin-top: 0; }
+    .phase-period { font-size: 1.45em; font-weight: bold; letter-spacing: 0.16em; color: #1c2b44; border-bottom: 2px solid #1c2b44; padding-bottom: 5px; }
+    .phase-label { display: block; font-size: 1.02em; color: #4a586e; margin-top: 0.55em; letter-spacing: 0.06em; font-weight: bold; }
+    .branch-guide { position: relative; z-index: 3; display: flex; justify-content: space-between; max-width: 520px; margin: -0.2em auto 1.8em; font-size: 0.82em; font-weight: bold; letter-spacing: 0.08em; }
+    .branch-guide span { background: #f2eadc; padding: 0.15em 0.8em; }
+    .branch-left { color: #1c2b44; }
+    .branch-right { color: #d63d33; }
+    .timeline-single { position: relative; z-index: 1; display: flex; flex-direction: column; }
+    .timeline-single::before { display: none; }
+    .timeline-parallel, .timeline-right-only { position: relative; z-index: 1; display: grid; grid-template-columns: calc(50% - 28px) calc(50% - 28px); justify-content: space-between; align-items: stretch; }
+    .timeline-right-only { align-items: start; }
+    .timeline-parallel::before, .timeline-right-only::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: 1.5px; background: rgba(28,43,68,0.2); z-index: 0; }
+    .timeline-right-only::before { background: rgba(214,61,51,0.24); }
+    .parallel-stream-col { display: flex; flex-direction: column; width: 100%; }
+    .parallel-stream-col.left-stream { grid-column: 1; }
+    .parallel-stream-col.right-stream { grid-column: 2; }
+    .tl-node.center-node { width: calc(50% - 28px); margin: 0 auto; background: #f2eadc; padding: 0.4em 0; position: relative; z-index: 2; }
+    .tl-node.left-node, .tl-node.right-node { width: 100%; position: relative; z-index: 2; }
+    .tl-node.left-node::before, .tl-node.right-node::before { content: ''; position: absolute; top: 18px; width: 28px; height: 1px; background: rgba(28,43,68,0.22); z-index: 1; }
+    .tl-node.left-node::before { right: -28px; }
+    .tl-node.right-node::before { left: -28px; background: rgba(214,61,51,0.28); }
+    .s-curve-connector { width: 100%; height: 380px; margin: -185px 0 -115px; display: block; position: relative; z-index: 3; pointer-events: none; overflow: visible; }
+    .branch-connector-svg { width: 100%; max-width: 560px; height: 64px; margin: -0.4em auto 0.4em; display: block; position: relative; z-index: 2; }
+    .branch-connector-svg .branch-line { fill: none; stroke-width: 1.5; }
+    .col-straight-steps { width: 240px; height: 100px; margin: 0.3em auto; display: block; overflow: visible; }
+    .club-continuation-bridge { flex: 1; width: 100%; display: flex; justify-content: center; align-items: stretch; padding-top: 0.4em; min-height: 800px; }
+    .club-continuous-svg { width: 240px; height: 100%; display: block; overflow: visible; }
+    .step-fp, .bridge-step { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0.25); transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.34,1.56,0.64,1); }
+    .observe-steps.is-visible .step-fp, .bridge-step.is-step-visible { opacity: 0.52; transform: scale(1); }
+    .fp-ra { fill: #1c2b44; }
+    .fp-club { fill: #d63d33; }
+    .fp-grad { fill: #2c5d63; }
+    .node-meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: 9px; margin-bottom: 0.55em; line-height: 1.2; }
+    .node-num { font-family: "Courier New", monospace; font-size: 0.8em; font-weight: bold; color: #8c96a6; }
+    .node-date { font-size: 1.35em; font-weight: bold; color: #1c2b44; letter-spacing: 0.06em; font-family: "Source Sans Pro", Helvetica, sans-serif; }
+    .node-cat { font-size: 0.68em; font-weight: bold; padding: 0.12em 0.65em; border-radius: 20px; letter-spacing: 0.05em; transform: translateY(-2px); background: rgba(253,250,245,0.65); }
+    .cat-ra { color: #1c2b44; border: 1px solid rgba(28,43,68,0.32); }
+    .cat-club { color: #d63d33; border: 1px solid rgba(214,61,51,0.38); }
+    .cat-grad { color: #2c5d63; border: 1px solid rgba(44,93,99,0.38); }
+    .node-visuals { display: grid; gap: 10px; margin-bottom: 0.9em; align-items: start; }
+    .node-visuals.cols-1 { grid-template-columns: 1fr; }
+    .node-visuals.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .node-visuals.cols-3 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .node-visuals.cols-3 .visual-frame:first-child { grid-column: 1 / -1; }
+    .node-visuals.cols-3-row { grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: center; }
+    .node-sub-visuals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 84%; margin: -0.2em auto 0.9em; }
+    .visual-frame { position: relative; width: 100%; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .visual-frame img { width: auto; max-width: 325px; height: auto; max-height: 255px; border-radius: 6px; border: 3px solid #fdfaf5; box-shadow: 0 5px 16px rgba(28,43,68,0.08); display: block; margin: 0 auto; }
+    .node-visuals.cols-3 .visual-frame:first-child img { max-width: 325px; max-height: 245px; }
+    .node-visuals.cols-2 .visual-frame img, .node-visuals.cols-3 .visual-frame:not(:first-child) img { max-width: 100%; max-height: 185px; }
+    .node-visuals.cols-3-row .visual-frame img { max-width: 100%; max-height: 165px; }
+    .node-sub-visuals .visual-frame img { max-width: 100%; max-height: 135px; }
+    /* SO-SMART（#23）：2枚とも同じ縦の長さ（150px）に揃え、少し小さくして足跡との重なりを解消 */
+    .node-visuals.same-height-pair { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; margin: 0 auto 0.9em; }
+    .node-visuals.same-height-pair .visual-frame { width: auto; flex: 0 1 auto; }
+    .node-visuals.same-height-pair .visual-frame img { height: 150px; max-height: 150px; width: auto; max-width: 100%; }
+    .lab-title-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 0.55em; }
+    .lab-title-row .node-title { margin: 0 !important; flex: 1; }
+    .lab-title-row .small-lab-inline { width: auto; max-width: 125px; flex-shrink: 0; }
+    .lab-title-row .small-lab-inline img { max-width: 125px; max-height: 88px; border-width: 2.5px; }
+    .mobile-stream-label { display: none; }
+    .visual-frame.is-placeholder { background: rgba(253,250,245,0.45); border: 1.5px dashed rgba(28,43,68,0.22); min-height: 120px; flex-direction: column; padding: 0.8em; text-align: center; font-size: 0.7em; color: #556278; font-weight: bold; }
+    .node-body { padding: 0 0.1em; }
+    .node-title { font-size: 1.05em; font-weight: bold; color: #1c2b44 !important; margin: 0 0 0.35em; line-height: 1.45; }
+    .node-desc { font-size: 0.84em; line-height: 1.8; color: #3b485e; margin: 0; }
+    .node-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 0.55em; font-size: 0.78em; font-weight: bold; color: #1c2b44; border-bottom: 1px solid rgba(28,43,68,0.4); }
+    .node-link:hover { color: #d63d33 !important; border-bottom-color: #d63d33; }
+    .activities-closing-line { max-width: 680px; margin: 3.2em auto 1em; padding: 0.85em 1.5em; border-top: 1px solid rgba(28,43,68,0.28); border-bottom: 1px solid rgba(28,43,68,0.28); text-align: center; font-size: 0.9em; font-weight: bold; color: #1c2b44; letter-spacing: 0.08em; line-height: 1.8; position: relative; z-index: 2; }
+    .fade-in-up { opacity: 0; filter: blur(6px); transform: translateY(30px); transition: opacity 3.2s cubic-bezier(0.22,1,0.36,1), filter 3.2s cubic-bezier(0.22,1,0.36,1), transform 3.2s cubic-bezier(0.22,1,0.36,1); }
+    .fade-in-up.is-visible { opacity: 1 !important; filter: blur(0) !important; transform: translateY(0) !important; }
+    @media screen and (max-width: 768px) {
+      .branch-connector-svg, .branch-guide, .club-continuation-bridge { display: none; }
+      .timeline-parallel::before, .timeline-right-only::before { left: 10px; transform: none; }
+      .phase-divider { margin: 2.2em auto 1.6em; padding: 0.5em 0.8em; display: block; }
+      .phase-period { font-size: 1.2em; }
+      .phase-label { font-size: 0.86em; }
+      .team-credit-note.note-artwork { font-size: 0.7em; max-width: 100%; margin: 2.2em auto -0.8em; transform: none; }
+      .team-credit-note.note-ra-team { font-size: 0.84em; }
+      .timeline-single { gap: 0.5em; padding-left: 0; }
+      .timeline-parallel, .timeline-right-only { display: flex; flex-direction: column; gap: 1.8em; padding-left: 26px; }
+      .parallel-stream-col { gap: 0.6em; }
+      .mobile-stream-label { display: inline-block; font-size: 0.82em; font-weight: bold; padding: 0.25em 0.9em; border-radius: 20px; margin: 0.8em 0 0.6em; align-self: flex-start; }
+      .mobile-stream-label.label-ra { background: rgba(28,43,68,0.1); color: #1c2b44; }
+      .mobile-stream-label.label-club { background: rgba(214,61,51,0.12); color: #d63d33; margin-top: 2em; }
+      .tl-node.center-node, .tl-node.left-node, .tl-node.right-node { width: 100%; max-width: 100%; margin: 0; padding: 0; }
+      .tl-node.left-node::before, .tl-node.right-node::before { left: -16px; right: auto; width: 12px; }
+      .s-curve-connector { height: 76px !important; margin: 0.2em auto !important; max-width: 240px; }
+      .col-straight-steps { height: 72px; margin: 0.2em auto; }
+      .node-sub-visuals { width: 92%; }
+      .visual-frame img { max-width: 100%; max-height: 230px; }
+      .node-visuals.cols-3-row .visual-frame img { max-height: 125px; }
+      .node-visuals.same-height-pair .visual-frame img { height: 115px; max-height: 115px; }
+      .lab-title-row { gap: 10px; }
+      .lab-title-row .small-lab-inline, .lab-title-row .small-lab-inline img { max-width: 100px; max-height: 72px; }
+    }
+  </style>
+  <script>
+  // GitHub Pagesの大文字・小文字区別（.jpg / .jpeg / .JPG / .PNG / .png）による画像非表示を自動解決するフォールバック
+  function tryNextExt(img) {
+    const exts = ['jpeg', 'jpg', 'png', 'JPEG', 'JPG', 'PNG'];
+    const attempt = parseInt(img.getAttribute('data-ext-idx') || '0', 10);
+    const origSrc = img.getAttribute('data-orig-src') || img.getAttribute('src');
+    if (!img.getAttribute('data-orig-src')) {
+      img.setAttribute('data-orig-src', origSrc);
+    }
+    const base = origSrc.replace(/\.[^/.]+$/, '');
+    if (attempt < exts.length) {
+      img.setAttribute('data-ext-idx', String(attempt + 1));
+      img.src = base + '.' + exts[attempt];
+    } else {
+      const p = img.parentElement;
+      p.classList.add('is-placeholder');
+      img.style.display = 'none';
+      p.insertAdjacentHTML('beforeend', '<span>' + (img.alt || 'Photo') + '<br><small>' + origSrc + '</small></span>');
+    }
+  }
+  </script>
 </head>
 <body class="page-activities">
-    <!-- 左足・右足シルエット定義 -->
-    <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
-        <symbol id="foot-left" viewBox="0 0 22 40">
-            <path d="M11,2 C7.5,2 5.5,4.2 5.8,8 C6.1,11.5 8.2,13 11.2,13 C14,13 15.5,11.2 15.8,8 C16,4.2 14.2,2 11,2 Z" />
-            <path d="M6.2,16.5 C4.2,17 3,21 3.2,26.5 C3.5,33.5 6.8,38 11.8,38 C16.2,38 18.5,34.5 18.2,29 C17.9,24.5 15.2,22 14.8,18.5 C14.5,16.5 13,16 10.5,16 C8.2,16 7.2,16.2 6.2,16.5 Z" />
-        </symbol>
-        <symbol id="foot-right" viewBox="0 0 22 40">
-            <path d="M11,2 C7.8,2 6,4.2 6.2,8 C6.5,11.2 8,13 10.8,13 C13.8,13 15.9,11.5 16.2,8 C16.5,4.2 14.5,2 11,2 Z" />
-            <path d="M15.8,16.5 C14.8,16.2 13.8,16 11.5,16 C9,16 7.5,16.5 7.2,18.5 C6.8,22 4.1,24.5 3.8,29 C3.5,34.5 5.8,38 10.2,38 C15.2,38 18.5,33.5 18.8,26.5 C19,21 17.8,17 15.8,16.5 Z" />
-        </symbol>
-    </svg>
-
-    <div class="page-transition-wrap">
-        <div class="transition-left"></div>
-        <div class="transition-right"></div>
-        <div class="transition-message">
-            <div class="transition-avatar"><img src="images/tori.png" alt="Avatar"></div>
-        </div>
+  <!-- 左足・右足シルエット定義 -->
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="foot-left" viewBox="0 0 22 40">
+      <path d="M11,2 C7.5,2 5.5,4.2 5.8,8 C6.1,11.5 8.2,13 11.2,13 C14,13 15.5,11.2 15.8,8 C16,4.2 14.2,2 11,2 Z" />
+      <path d="M6.2,16.5 C4.2,17 3,21 3.2,26.5 C3.5,33.5 6.8,38 11.8,38 C16.2,38 18.5,34.5 18.2,29 C17.9,24.5 15.2,22 14.8,18.5 C14.5,16.5 13,16 10.5,16 C8.2,16 7.2,16.2 6.2,16.5 Z" />
+    </symbol>
+    <symbol id="foot-right" viewBox="0 0 22 40">
+      <path d="M11,2 C7.8,2 6,4.2 6.2,8 C6.5,11.2 8,13 10.8,13 C13.8,13 15.9,11.5 16.2,8 C16.5,4.2 14.5,2 11,2 Z" />
+      <path d="M15.8,16.5 C14.8,16.2 13.8,16 11.5,16 C9,16 7.5,16.5 7.2,18.5 C6.8,22 4.1,24.5 3.8,29 C3.5,34.5 5.8,38 10.2,38 C15.2,38 18.5,33.5 18.8,26.5 C19,21 17.8,17 15.8,16.5 Z" />
+    </symbol>
+  </svg>
+  <div class="page-transition-wrap">
+    <div class="transition-left"></div>
+    <div class="transition-right"></div>
+    <div class="transition-message">
+      <div class="transition-avatar"><img src="images/tori.png" alt="Avatar"></div>
     </div>
-
-    <header id="header">
-        <div class="inner"><h1>Morichiku's Gallery</h1></div>
-        <nav>
-            <ul class="global-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="works.html">Works</a></li>
-                <li><a href="games.html">Games</a></li>
-                <li><a href="activities.html">Activities</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="news.html">News</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div id="main">
-        <section id="activities-section">
-            <header class="major fade-in-up" style="text-align: center; margin-bottom: 1.5em;">
-                <h2>Activities / 活動の歩み</h2>
-            </header>
-
-            <p class="activities-intro fade-in-up">
-                学生寮や同好会でのイベント企画・空間づくりから、<br>大学主催行事や他大学合同ライブのポスターイラスト制作、そして現在の個人ゲーム開発まで。<br>
-                イラスト表現とアイデアを掛け合わせ、<br>「人が集まり、体験して楽しくなる仕掛け」を作ってきた記録です。
-            </p>
-
-            <div class="team-credit-note note-artwork fade-in-up">
-                <strong>【単体のイラスト制作・アートワークについて】</strong><br>
-                本ページに掲載している企画・展示のほか、広島県の他大学合同ライブのポスターや<br>大学主催イベントのメインビジュアルなど、単体でのイラスト制作も幅広く手掛けています。<br>描き下ろしたポスターやイラスト作品は <a href="works.html" class="node-link" style="margin-top: 0;">Worksページ</a> にて公開しています。
-            </div>
-
-            <div class="timeline-wrapper">
-
-                <!-- Phase 1: 2023.04 〜 2024.05（1列：日付→画像→下に説明文） -->
-                <div class="phase-divider fade-in-up">
-                    <span class="phase-period">2023.04 — 2024.05</span>
-                    <span class="phase-label">学生寮RA 1年目〜2年目春｜イラストと企画で寮の日常を彩る</span>
-                </div>
-
-                <div class="team-credit-note note-ra-team fade-in-up">
-                    <strong>【学生寮RA（3人チーム）での活動について】</strong><br>
-                    寮のイベント運営はRAメンバー3人で協力して行いました。<br>私は主に<strong>イベントの企画立案と告知ポスターのイラスト制作</strong>を担当し、事務作業や本部への報告、寮内での実際の告知・運営サポートなどは頼もしい仲間2人が担ってくれました。
-                </div>
-
-                <div class="timeline-single">
-                    <!-- #01 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#01</span><span class="node-date">2023.04</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/2b.png" alt="新入寮生歓迎会" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>歓迎会</span><small>images/2b.png</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">新入寮生歓迎会（たこ焼きパーティ）</h3>
-                            <p class="node-desc">親元を離れて緊張している新入寮生が、最初の一歩を踏み出しやすくなるよう企画した歓迎会です。ただ食事をするだけでなく、同じテーブルのメンバーと自然に会話やツッコミが生まれるよう、一般知識から「寮のちょっとマニアックなクイズ」、さらには「告知ポスターをよく見ていないと気づかない問題」を協力型クイズとして仕掛け、笑顔と安心感のあるスタートを作りました。<br>また、開催までの日数を毎日異なるカウントダウンイラストで飾ってワクワク感を演出する試みは、のちに高く評価され、東京（武蔵野美術大学寮など）を中心とした全国の多くの寮に導入されました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
-
-                    <!-- #02 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#02</span><span class="node-date">2023.05</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/9b.png" alt="夜の試写会" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>夜の試写会</span><small>images/9b.png</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">夜の試写会</h3>
-                            <p class="node-desc">コロナ禍の制限が明け、みんなで集まれるようになったタイミングに合わせ、寮に新しく導入したプロジェクターの機材確認も兼ねて開催した試写会です。<br>告知ポスターでも「夜にひっそりと小規模で上映するワクワク感」を演出し、部屋からふらっと集まって同じ物語を共有する時間を作りました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
-
-                    <!-- #03 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#03</span><span class="node-date">2023.08</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/10b.png" alt="夏の映画上映会" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>夏の映画上映会</span><small>images/10b.png</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">夏の映画上映会</h3>
-                            <p class="node-desc">春の試写会での反響を受け、サブウーファーの追加導入など音響や投影環境をさらにアップグレードして開催した夏のシアター企画です。長編映画3本をゆったり楽しめるよう美味しい食事も用意し、夏休みの寮に特別な非日常空間をプロデュースしました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
-
-                    <!-- #04 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#04</span><span class="node-date">2023.10</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/20b.jpg" alt="Finding Ghosts" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>Finding Ghosts</span><small>images/20b.jpg</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">Finding Ghosts</h3>
-                            <p class="node-desc">大人数のパーティが少し苦手な人でも、自分のペースでこっそりイベントを楽しめるようにと考えたリアル探索ゲームです。<br>描き下ろした13匹のお化けイラストを寮のあちこちに隠し、日常の移動時間を「宝探し」に変える仕掛けを作りました。<br>すべて正確に見つけ出した人には、一人ひとり別のお化けを手描きした「1点もののイラスト＆メッセージカード」とプレゼントを贈りました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
-
-                    <!-- #05 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#05</span><span class="node-date">2023.12</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/23b.png" alt="クリスマスあたたまり会" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>鍋パーティ</span><small>images/23b.png</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">クリスマスあたたまり会（鍋パーティ）</h3>
-                            <p class="node-desc">寒さが厳しくなる12月に、温かい湯気を囲んで心も体もほぐれる場所を作りたいと企画した鍋パーティです。<br>ポスターにも温かみのあるユーモアを込め、1年の締めくくりにみんなで食卓を囲む賑やかな夜になりました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
-
-                    <!-- #06 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#06</span><span class="node-date">2024.02</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/26b.jpeg" alt="鬼探し" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>鬼探し</span><small>images/26b.jpeg</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">鬼探し</h3>
-                            <p class="node-desc">ハロウィンの「お化け探し」が好評だったことから生まれた探索シリーズ第2弾です。節分に合わせて個性豊かな10匹の鬼を描き下ろし、「どこに隠れているんだろう？」と寮生同士の会話が弾むきっかけを作りました。<br>ポスターと隠す鬼のイラストを「墨絵」モチーフにしたことで風景に溶け込みやすくなり、ハロウィンよりも少し歯ごたえのある難易度に仕立てています。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
-
-                    <!-- #07 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#07</span><span class="node-date">2024.04</span><span class="node-cat cat-ra">学生寮RA（2年目）</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/24b.png" alt="新入寮生歓迎会 2024" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>歓迎会 2024</span><small>images/24b.png</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">新入寮生歓迎会（たこ焼きパーティ＆広島案内クイズ）</h3>
-                            <p class="node-desc">2年目の歓迎会は、前年の内容をさらにアップデートして開催しました。既存のクイズに加え、初めて広島で一人暮らしを始める新入生が街に出るのが楽しくなるような「ご当地クイズや周辺のおすすめスポット案内」を盛り込み、新生活の不安をワクワクに変える工夫を凝らしました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
-
-                    <!-- #08 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#08</span><span class="node-date">2024.05</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/12b.jpg" alt="母の日イベント" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-image"></i><span>母の日イベント</span><small>images/12b.jpg</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">母の日イベント</h3>
-                            <p class="node-desc">いつもイベントを楽しんでくれる寮生だけでなく、「遠くで見守る親御さん」や「毎日を支えてくれる寮母さん」にも喜んでもらいたいと考案した企画です。普段は照れくさくて言えない感謝の言葉を手紙にし、お母さんへは郵送で、寮母さんへは直接手渡しで届ける温かい循環を作りました。<br>この企画は、前述のカウントダウン演出とともに全国のRAの中でユニークな取り組みとして紹介され、様々な寮に取り入れられました。</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Phase 2: 2024.06 〜 2025.02（左右2列並走） -->
-                <div class="phase-divider fade-in-up">
-                    <span class="phase-period">2024.06 — 2025.02</span>
-                    <span class="phase-label">学生寮RA × 芸術・イラスト同好会 並走期</span>
-                </div>
-
-                <svg class="branch-connector-svg fade-in-up" viewBox="0 0 560 64">
-                    <path class="branch-line" d="M 280 0 C 280 32, 120 32, 120 64" stroke="rgba(28, 43, 68, 0.25)" />
-                    <path class="branch-line" d="M 280 0 C 280 32, 440 32, 440 64" stroke="rgba(214, 61, 51, 0.3)" />
-                </svg>
-
-                <div class="branch-guide fade-in-up">
-                    <span class="branch-left">◀ 学生寮RA（2年目）</span>
-                    <span class="branch-right">芸術・イラスト同好会 ▶</span>
-                </div>
-
-                <div class="timeline-parallel">
-                    <!-- 左列：学生寮RA -->
-                    <div class="parallel-stream-col left-stream">
-                        <span class="mobile-stream-label label-ra">◀ 学生寮RA（2年目）</span>
-                        <!-- #09 -->
-                        <div class="tl-node left-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#09</span><span class="node-date">2024.06</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/14b.jpg" alt="父の日イベント" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>父の日イベント</span><small>images/14b.jpg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">父の日イベント</h3>
-                                <p class="node-desc">母の日企画で生まれた温かい空気を引き継ぎ、6月はお父さんや寮長さんへ感謝の手紙を届ける企画を実施しました。<br>ポスターも母の日と対になるトーンで描き下ろし、寮の中と外を繋ぐ優しいコミュニケーションの場になりました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
-
-                        <!-- #11 -->
-                        <div class="tl-node left-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#11</span><span class="node-date">2024.07 — 08</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/51.PNG" alt="2024年 夏の映画上映会" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-film"></i><span>2024年 夏の上映会 当日風景</span><small>images/51.PNG</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">夏の映画上映会</h3>
-                                <p class="node-desc">2年目の夏も、すっかり寮の定番となったナイトシアターを開館しました。お気に入りのポスターアートとともに、「夏といえばこの上映会」と寮生が自然に集まってくつろげる、夏の風物詩のような空間になりました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
-
-                        <!-- #13（てづくりハロウィンの左隣に Finding Ghosts の 20b.jpg を追加し横3枚並びに） -->
-                        <div class="tl-node left-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#13</span><span class="node-date">2024.10</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                            <div class="node-visuals cols-3-row">
-                                <div class="visual-frame">
-                                    <img src="images/20b.jpg" alt="Finding Ghosts" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>Finding Ghosts</span><small>images/20b.jpg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/11b.jpg" alt="てづくりハロウィン" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>てづくりハロウィン</span><small>images/11b.jpg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/19b.jpg" alt="Making-o'-Lantern" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>Making-o'-Lantern</span><small>images/19b.jpg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-sub-visuals">
-                                <div class="visual-frame">
-                                    <img src="images/54.jpg" alt="ハロウィン風景 1" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-camera"></i><span>ハロウィン風景 1</span><small>images/54.jpg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/55.jpg" alt="ランタンづくり風景 2" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-camera"></i><span>ランタンづくり風景 2</span><small>images/55.jpg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">ハロウィン3大企画（Find Ghosts / てづくりハロウィン / Making-o'-Lantern）</h3>
-                                <p class="node-desc">2年目のハロウィンは本場海外の賑やかなハロウィン文化に着目し、「寮全体をひとつのハロウィンムードに染める」大型企画へと進化させました。<br>恒例の「13匹のお化け探し」に加え、粘土や折り紙での空間装飾、みんなで巨大なカボチャを作る「Making-o'-Lantern」を計3週にわたって展開し、「見る・探す・作る」のどこからでも参加できるイベントを設計しました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
-
-                        <!-- #15 -->
-                        <div class="tl-node left-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#15</span><span class="node-date">2024.11</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/38b.png" alt="餃子パーティ" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>餃子パーティ</span><small>images/38b.png</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">餃子パーティ</h3>
-                                <p class="node-desc">「一緒に手を動かす作業があると、自然と関わりが生まれる」という気づきから企画したクッキングイベントです。<br>みんなでタネを混ぜて皮に包み、ホットプレートで焼き上げるまでの共同作業を通じて、笑いが絶えない温かい食卓を作りました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
-
-                        <!-- #16 -->
-                        <div class="tl-node left-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#16</span><span class="node-date">2024.12</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/23b.png" alt="クリスマス・鍋・プレゼント交換会" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-gifts"></i><span>クリスマス・鍋・交換会</span><small>images/23b.png</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">クリスマス映画上映会・鍋パーティ・プレゼント交換会</h3>
-                                <p class="node-desc">2年目のクリスマスは、海外の家庭のクリスマスレクリエーションを参考に、映画と鍋の団らんへ「ランダムプレゼント交換会」の仕掛けをプラスしました。<br>誰の手に渡るかわからない状態でプレゼントとメッセージカードを用意してもらい、開封する瞬間のドキドキ感とサプライズを演出しました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
-
-                        <!-- #17 -->
-                        <div class="tl-node left-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#17</span><span class="node-date">2025.02</span><span class="node-cat cat-ra">学生寮RA</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/27b.jpeg" alt="鬼探し" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>鬼探し</span><small>images/27b.jpeg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">鬼探し</h3>
-                                <p class="node-desc">RAとして最後の企画となった、節分の寮内探索ゲームです。<br>2年間続けてきた探索シリーズも寮の恒例行事としてすっかり定着し、日常の空間に遊び心を忍ばせる楽しさを改めて実感した企画となりました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
-
-                        <!-- #18 -->
-                        <div class="tl-node left-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#18</span><span class="node-date">2025.02</span><span class="node-cat cat-ra">学生寮RA（集大成・引退）</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/59.jpeg" alt="全国RAサミット（東京）発表" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-chalkboard-teacher"></i><span>全国RAサミット（東京）発表風景</span><small>images/59.jpeg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">2024年度全国RAサミット（東京）にて発表・RA引退</h3>
-                                <p class="node-desc">仲間のRAメンバーによる生活サポートとともに歩んだ2年間の集大成として、全国のRAが集まる東京のサミットに登壇しました。<br>「寮を思い出づくりの場にする」ために続けてきたイベント企画と、描き下ろした約20点の告知ポスターについて発表を行い、RAの活動を締めくくりました。</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 右列：芸術・イラスト同好会 -->
-                    <div class="parallel-stream-col right-stream">
-                        <span class="mobile-stream-label label-club">芸術・イラスト同好会 ▶</span>
-                        <!-- #10 -->
-                        <div class="tl-node right-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#10</span><span class="node-date">2024.06</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/34b.png" alt="芸術・イラスト同好会設立" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>同好会設立</span><small>images/34b.png</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">「芸術・イラスト同好会」設立・初代主将に就任</h3>
-                                <p class="node-desc">寮生がふとこぼした「絵を描きたいけれど、大学に芸術系の部活がなくて寂しい。絵で何か活躍したい」という一言がすべての始まりでした。<br>過去に芸術部・イラスト部・漫画研究部などが乱立し、人数分散で廃部になった経緯を踏まえ、絵画・イラストからデジタル作品まで「表現したい人が誰でも集まれる場所」として同好会を立ち上げ、大学公認を獲得しました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
-
-                        <!-- #12 -->
-                        <div class="tl-node right-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#12</span><span class="node-date">2024.07</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
-                            <div class="node-visuals cols-2">
-                                <div class="visual-frame">
-                                    <img src="images/52.jpg" alt="清掃前の旧部室 Before" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-broom"></i><span>Before（清掃前）</span><small>images/52.jpg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/53.jpeg" alt="再生したアトリエ After" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-paint-roller"></i><span>After（清掃後）</span><small>images/53.jpeg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">廃部室の一斉清掃</h3>
-                                <p class="node-desc">同好会のスタートは、約10年間使われずに眠っていた旧部室の大掃除から始まりました。廃部以来のゴミやホコリでいっぱいだった部屋を初期メンバーと汗を流して一斉に片付け、誰もが自由に画材を広げて創作に没頭できる、新しいアトリエへと再生させました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
-
-                        <!-- #14 -->
-                        <div class="tl-node right-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#14</span><span class="node-date">2024.10</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
-                            <div class="node-visuals cols-3">
-                                <div class="visual-frame">
-                                    <img src="images/56.jpeg" alt="2024大学祭展示 1" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-palette"></i><span>展示写真 1（上段メイン）</span><small>images/56.jpeg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/57.jpeg" alt="2024大学祭展示 2" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>展示写真 2</span><small>images/57.jpeg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/58.jpeg" alt="2024大学祭展示 3" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-camera-retro"></i><span>展示写真 3</span><small>images/58.jpeg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">大学祭 作品展示</h3>
-                                <p class="node-desc">設立から4ヶ月で迎えた初めての大学祭展示です。<br>水彩画や鉛筆画、粘土といったアナログ作品から、プログラミングによって映像が不思議に歪む「スリットスキャンカメラ」まで、ジャンルの垣根を超えた作品を並べ、<br>「芸術を見るだけでなく体験するギャラリー」を作り上げました。</p>
-                            </div>
-                        </div>
-
-                        <!-- 2024.10〜2025.04の空白期間を実寸サイズで一直線につなぐ赤い足跡 -->
-                        <div class="club-continuation-bridge" id="club-continuation-bridge">
-                            <svg class="club-continuous-svg" id="club-continuous-svg"></svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Phase 3: 2025.04 〜 2025.10（右列継続：同好会 2年目） -->
-                <div class="phase-divider fade-in-up">
-                    <span class="phase-period">2025.04 — 2025.10</span>
-                    <span class="phase-label">芸術・イラスト同好会 2年目｜来場者も一緒に楽しめる空間へ</span>
-                </div>
-
-                <div class="timeline-right-only">
-                    <div class="parallel-stream-col right-stream">
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
-
-                        <!-- #19 -->
-                        <div class="tl-node right-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#19</span><span class="node-date">2025.04</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
-                            <div class="node-visuals cols-1">
-                                <div class="visual-frame">
-                                    <img src="images/65.jpeg" alt="新入生歓迎会" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>新入生歓迎会（体験展示＆落書きスペース）</span><small>images/65.jpeg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">新入生歓迎会（体験展示＆落書きスペース）</h3>
-                                <p class="node-desc">2年目の春は、来場者自身にも「作品を作る体験」をしてもらう仕掛けとして、会場に黒板サイズの巨大な「落書きスペース」を設置しました。<br>訪れた新入生が自由にペンを取って描き込める参加型の空間にしたことで、「見る・体験する・作る」の3軸が完成し、同好会の輪がさらに大きく広がりました。</p>
-                            </div>
-                        </div>
-
-                        <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
-
-                        <!-- #20 -->
-                        <div class="tl-node right-node fade-in-up">
-                            <div class="node-meta"><span class="node-num">#20</span><span class="node-date">2025.10</span><span class="node-cat cat-club">芸術・イラスト同好会（主将引退）</span></div>
-                            <div class="node-visuals cols-3">
-                                <div class="visual-frame">
-                                    <img src="images/60.jpeg" alt="2025大学祭展示 1" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-image"></i><span>展示写真 1（上段メイン）</span><small>images/60.jpeg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/61.jpeg" alt="2025大学祭展示 2" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-bolt"></i><span>レーザーハープ展示</span><small>images/61.jpeg</small></div>
-                                </div>
-                                <div class="visual-frame">
-                                    <img src="images/62.jpeg" alt="2025大学祭展示 3" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-users"></i><span>展示会場＆落書き壁</span><small>images/62.jpeg</small></div>
-                                </div>
-                            </div>
-                            <div class="node-body">
-                                <h3 class="node-title">大学祭 展示 ＆ 主将引退</h3>
-                                <p class="node-desc">2度目の大学祭展示です。<br>イラスト展示や巨大落書き壁、スリットスキャンカメラといった<br>「見る・体験する・作る」の軸に加え、部員が制作した「レーザーハープ（平沢進モチーフ）」やコンテスト応募作品など、多様な才能がぶつかり合う空間となり、この展示をもって初代主将のバトンを後輩へ託しました。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Phase 4: 2026.04 〜 現在（中央1列に合流：日付→画像→下に説明文） -->
-                <svg class="branch-connector-svg fade-in-up" viewBox="0 0 560 64" style="margin-top: 1.5em; margin-bottom: -0.8em;">
-                    <path class="branch-line" d="M 440 0 C 440 32, 280 32, 280 64" stroke="rgba(44, 93, 99, 0.35)" />
-                </svg>
-
-                <div class="phase-divider fade-in-up">
-                    <span class="phase-period">2026.04 — PRESENT</span>
-                    <span class="phase-label">大学院・個人制作・プロジェクト</span>
-                </div>
-
-                <div class="timeline-single grad-stream">
-                    <!-- #21（タイトルのすぐ右隣にKyoto Design Labの小さな画像枠を配置：images/66.jpeg） -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#21</span><span class="node-date">2026.04</span><span class="node-cat cat-grad">Graduate / Lab</span></div>
-                        <div class="node-body">
-                            <div class="lab-title-row">
-                                <h3 class="node-title">京都工芸繊維大学大学院 入学 <br>＆ Kyoto Design Lab techメンバー就任</h3>
-                                <div class="visual-frame small-lab-inline">
-                                    <img src="images/66.jpeg" alt="Kyoto Design Lab" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                    <div class="placeholder-info"><i class="fas fa-cubes"></i><span>D-Lab</span><small>images/66.jpeg</small></div>
-                                </div>
-                            </div>
-                            <p class="node-desc">さらなる表現とインターフェース設計の可能性を広げるため、京都工芸繊維大学大学院へ進学。あわせてKyoto Design Labのtechメンバーとなりました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-grad"></svg>
-
-                    <!-- #22 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#22</span><span class="node-date">2026.07</span><span class="node-cat cat-grad">Game</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/game2.png" alt="Chew! Blow! Poo!" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-gamepad"></i><span>Chew! Blow! Poo!</span><small>images/game2.png</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">個人制作ゲーム『Chew! Blow! Poo!』公開</h3>
-                            <p class="node-desc">ポップなカートゥーン調の世界観の中に、「次々と迫るタスクとリスク管理のジレンマ」を詰め込んだ2Dアクションゲームを制作・公開しました。シンプルな操作ながら、焦れば焦るほどミスをしてしまう「愉快なパニック体験」を設計しています。</p>
-                            <a href="games.html" class="node-link"><i class="fas fa-gamepad"></i> Gamesページで詳しく見る →</a>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-grad"></svg>
-
-                    <!-- #23 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#23</span><span class="node-date">2026.07</span><span class="node-cat cat-grad">Project</span></div>
-                        <div class="node-visuals cols-2">
-                            <div class="visual-frame">
-                                <img src="images/63.png" alt="沖縄 So-smart Project 1" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-water"></i><span>沖縄フィールドワーク 1</span><small>images/63.png</small></div>
-                            </div>
-                            <div class="visual-frame">
-                                <img src="images/64.PNG" alt="沖縄 So-smart Project 2" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-map-marked-alt"></i><span>沖縄フィールドワーク 2</span><small>images/64.PNG</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">沖縄環境プロジェクト「So-smart Project」参加</h3>
-                            <p class="node-desc">国内外6大学が連携し、環境にやさしいスマート交通の実現を目指す国際共同プロジェクト「SO-SMART」に参加しました。<br>CO2排出量の少ない移動手段を選ぶとエコポイントが貯まり、アプリ内のキャラクター「シーサーちゃん」の表情が変化するゲーミフィケーション設計において、「どうすれば楽しみながら行動を変えてもらえるか」の企画議論や画面デザインの一部、沖縄現地での実証実験の調整に携わりました。</p>
-                        </div>
-                    </div>
-
-                    <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-grad"></svg>
-
-                    <!-- #24 -->
-                    <div class="tl-node center-node fade-in-up">
-                        <div class="node-meta"><span class="node-num">#24</span><span class="node-date">2026.10</span><span class="node-cat cat-grad">Game</span></div>
-                        <div class="node-visuals cols-1">
-                            <div class="visual-frame">
-                                <img src="images/game3.jpg" alt="UNTIL MOM COMES HOME" onerror="this.parentElement.classList.add('is-placeholder'); this.style.display='none';" />
-                                <div class="placeholder-info"><i class="fas fa-gamepad"></i><span>UNTIL MOM COMES HOME</span><small>images/game3.jpg</small></div>
-                            </div>
-                        </div>
-                        <div class="node-body">
-                            <h3 class="node-title">『UNTIL MOM COMES HOME — ママが帰るまで —』公開</h3>
-                            <p class="node-desc">手描きイラストとAI実写化を何層も塗り重ねた「ミルフィーユ手法」により、手描きの空気感を残したまま不気味なリアリティを追求した短編ブラウザホラーゲームです。<br>減り続けるバッテリーがプレイヤーの視線を「スマホ操作」へと注目させ、奥から迫るぬいぐるみを必然的に「視界の端」で捉えさせる視覚誘導を仕掛けました。<br>色彩で位置が簡単にバレないよう雷光のモノクロ表現に絞ることで、「視界の端でなんとなく近づく気配はわかるのに、はっきり見えた時にはもう目の前にいる」という焦燥感を生み出しています。</p>
-                            <a href="games.html" class="node-link"><i class="fas fa-gamepad"></i> Gamesページで詳しく見る →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 一番下の細い一言メッセージ -->
-                <p class="activities-closing-line fade-in-up">
-                    イラストも、空間の仕掛けも、ゲームも。見る人・遊ぶ人の心がふっと動く作品を、これからも制作していきます！
-                </p>
-
-            </div>
-        </section>
-    </div>
-
-    <site-footer id="site-footer">
-        <div class="inner">
-            <ul class="copyright">
-                <li>&copy; Morichiku's Gallery</li>
-                <li>Design based on: HTML5 UP</li>
-            </ul>
+  </div>
+  <header id="header">
+    <div class="inner"><h1>Morichiku's Gallery</h1></div>
+    <nav>
+      <ul class="global-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="works.html">Works</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="news.html">News</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div id="main">
+    <section id="activities-section">
+      <header class="major fade-in-up" style="text-align: center; margin-bottom: 1.5em;">
+        <h2>Activities / 活動の歩み</h2>
+      </header>
+      <p class="activities-intro fade-in-up">
+        学生寮や同好会でのイベント企画・空間づくりから、<br>大学主催行事や他大学合同ライブのポスターイラスト制作、そして現在の個人ゲーム開発まで。<br>
+        イラスト表現とアイデアを掛け合わせ、<br>「人が集まり、体験して楽しくなる仕掛け」を作ってきた記録です。
+      </p>
+      <div class="timeline-wrapper">
+        <!-- Phase 1: 2023.04 〜 2024.05（1列：日付→画像→下に説明文） -->
+        <div class="phase-divider fade-in-up">
+          <span class="phase-period">2023.04 — 2024.05</span>
+          <span class="phase-label">学生寮RA 1年目〜2年目春｜イラストと企画で寮の日常を彩る</span>
         </div>
-    </site-footer>
-
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // ページ遷移カバー
-        const leaveCover = document.createElement('div');
-        leaveCover.className = 'page-leave-cover';
-        document.body.appendChild(leaveCover);
-        document.querySelectorAll('.global-nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (this.href === window.location.href) return;
-                e.preventDefault();
-                document.body.classList.add('is-leaving');
-                setTimeout(() => { window.location.href = this.href; }, 500);
-            });
-        });
-
-        const ns = 'http://www.w3.org/2000/svg';
-
-        function appendStep(svg, isRight, colorClass, x, y, angle, delaySec, extraClass) {
-            const g = document.createElementNS(ns, 'g');
-            g.setAttribute('class', (extraClass || 'step-fp') + ' ' + colorClass);
-            g.style.transitionDelay = delaySec.toFixed(2) + 's';
-            const use = document.createElementNS(ns, 'use');
-            use.setAttribute('href', isRight ? '#foot-right' : '#foot-left');
-            use.setAttribute('width', '11');
-            use.setAttribute('height', '20');
-            use.setAttribute('x', x.toFixed(1));
-            use.setAttribute('y', y.toFixed(1));
-            use.setAttribute('transform', 'rotate(' + angle.toFixed(1) + ' ' + (x + 5.5).toFixed(1) + ' ' + (y + 10).toFixed(1) + ')');
-            g.appendChild(use);
-            svg.appendChild(g);
-            return g;
-        }
-
-        // 3次ベジェ曲線から等間隔に足跡座標をサンプリングするヘルパー
-        function sampleMultiBezier(segments, numSteps, marginPx) {
-            const table = [];
-            let cum = 0, px = null, py = null;
-            segments.forEach((seg, sIdx) => {
-                const [p0, p1, p2, p3] = seg;
-                const N = 250;
-                for (let i = 0; i <= N; i++) {
-                    if (sIdx > 0 && i === 0) continue;
-                    const t = i / N, mt = 1 - t;
-                    const x = mt*mt*mt*p0[0] + 3*mt*mt*t*p1[0] + 3*mt*t*t*p2[0] + t*t*t*p3[0];
-                    const y = mt*mt*mt*p0[1] + 3*mt*mt*t*p1[1] + 3*mt*t*t*p2[1] + t*t*t*p3[1];
-                    const dx = 3*mt*mt*(p1[0]-p0[0]) + 6*mt*t*(p2[0]-p1[0]) + 3*t*t*(p3[0]-p2[0]);
-                    const dy = 3*mt*mt*(p1[1]-p0[1]) + 6*mt*t*(p2[1]-p1[1]) + 3*t*t*(p3[1]-p2[1]);
-                    if (px !== null) cum += Math.hypot(x - px, y - py);
-                    table.push([cum, x, y, dx, dy]);
-                    px = x; py = y;
-                }
-            });
-            const total = table[table.length - 1][0];
-            const startS = marginPx, endS = total - marginPx;
-            const res = [];
-            for (let k = 0; k < numSteps; k++) {
-                const target = startS + (endS - startS) * (k / (numSteps - 1));
-                let lo = 0, hi = table.length - 1;
-                while (lo < hi) {
-                    const mid = (lo + hi) >> 1;
-                    if (table[mid][0] < target) lo = mid + 1; else hi = mid;
-                }
-                const [, x, y, dx, dy] = table[lo];
-                const ang = Math.atan2(-dx, dy) * 180 / Math.PI;
-                const len = Math.hypot(dx, dy) || 1;
-                const ux = dx / len, uy = dy / len;
-                const isRight = (k % 2 === 1);
-                const vx = isRight ? -uy : uy;
-                const vy = isRight ? ux : -ux;
-                res.push([x + vx * 5.5 - 5.5, y + vy * 5.5 - 10, ang]);
-            }
-            return res;
-        }
-
-        // 各説明文の行数・高さに合わせて、文字と重ならないS字足跡を自動生成
-        function buildAllTrails() {
-            document.querySelectorAll('svg[data-trail]').forEach(svg => {
-                const type = svg.getAttribute('data-trail');
-                const color = svg.getAttribute('data-color') || 'fp-ra';
-                svg.innerHTML = '';
-
-                const isMobile = window.innerWidth <= 768;
-                if (isMobile && (type === 's-curve' || type === 's-curve-short')) {
-                    // スマホ画面では文字と重ならないよう、カード間の隙間でトコトコ歩く縦ステップに自動最適化
-                    svg.style.height = '76px';
-                    svg.style.marginTop = '0.2em';
-                    svg.style.marginBottom = '0.2em';
-                    svg.setAttribute('viewBox', '0 0 240 80');
-                    for (let i = 0; i < 4; i++) {
-                        const isRight = (i % 2 === 1);
-                        const x = isRight ? 123.5 : 105.5;
-                        const y = 6.0 + i * 16.5;
-                        const ang = isRight ? -6.0 : 6.0;
-                        appendStep(svg, isRight, color, x, y, ang, 0.12 + i * 0.20);
-                    }
-                } else if (type === 's-curve' || type === 's-curve-short') {
-                    const prevNode = svg.previousElementSibling;
-                    const bodyEl = prevNode ? prevNode.querySelector('.node-body') : null;
-                    const bodyH = (bodyEl && bodyEl.offsetHeight > 40) ? bodyEl.offsetHeight : 140;
-
-                    if (type === 's-curve') {
-                        // 上の写真の左横からスタートし、説明文の高さ(bodyH)の外側をぐるっと回って下の写真の右横へ
-                        const topOverlap = bodyH + 45;
-                        const botOverlap = 115;
-                        const gapH = 80;
-                        const totalH = topOverlap + gapH + botOverlap;
-                        svg.style.height = totalH + 'px';
-                        svg.style.marginTop = (-topOverlap) + 'px';
-                        svg.style.marginBottom = (-botOverlap) + 'px';
-                        svg.setAttribute('viewBox', '0 0 900 ' + totalH);
-
-                        const midY = topOverlap + gapH * 0.5;
-                        const segs = [
-                            [[265, 20], [75, 20], [70, topOverlap + 10], [275, midY - 10]],
-                            [[275, midY - 10], [390, midY], [510, midY], [625, midY + 10]],
-                            [[625, midY + 10], [825, midY + 30], [820, totalH - 20], [635, totalH - 20]]
-                        ];
-                        const stepsCount = Math.max(16, Math.min(22, Math.round(totalH / 20)));
-                        const pts = sampleMultiBezier(segs, stepsCount, 24);
-                        pts.forEach((p, i) => appendStep(svg, i % 2 === 1, color, p[0], p[1], p[2], 0.12 + i * 0.15));
-                    } else {
-                        const totalH = 275;
-                        svg.setAttribute('viewBox', '0 0 900 ' + totalH);
-                        const segs = [
-                            [[265, 15], [105, 15], [95, 95], [275, 115]],
-                            [[275, 115], [390, 127], [510, 127], [625, 139]],
-                            [[625, 139], [815, 160], [815, 255], [635, 255]]
-                        ];
-                        const pts = sampleMultiBezier(segs, 16, 24);
-                        pts.forEach((p, i) => appendStep(svg, i % 2 === 1, color, p[0], p[1], p[2], 0.12 + i * 0.15));
-                    }
-                } else if (type === 'straight') {
-                    svg.setAttribute('viewBox', '0 0 240 100');
-                    const startRight = (color === 'fp-club');
-                    for (let i = 0; i < 5; i++) {
-                        const isRight = startRight ? (i % 2 === 0) : (i % 2 === 1);
-                        const x = isRight ? 121.5 : 107.5;
-                        const y = 6.0 + i * 17.0;
-                        const ang = isRight ? -4.0 : 4.0;
-                        appendStep(svg, isRight, color, x, y, ang, 0.15 + i * 0.22);
-                    }
-                }
-            });
-        }
-
-        buildAllTrails();
-        window.addEventListener('load', buildAllTrails);
-        window.addEventListener('resize', buildAllTrails);
-
-        // スクロール監視（フェードイン＆足跡出現）
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
-
-        document.querySelectorAll('.fade-in-up, .observe-steps').forEach(el => observer.observe(el));
-
-        // 同好会の空白期間（2024.10〜2025.04）を実寸サイズで途切れず一直線につなぐ
-        const bridgeContainer = document.getElementById('club-continuation-bridge');
-        const bridgeSvg = document.getElementById('club-continuous-svg');
-        const stepObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-step-visible');
-                    stepObserver.unobserve(entry.target);
-                }
-            });
-        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
-
-        function buildContinuousBridgeFootprints() {
-            if (!bridgeContainer || !bridgeSvg) return;
-            const h = Math.max(300, bridgeContainer.clientHeight);
-            bridgeSvg.setAttribute('height', h);
-            bridgeSvg.setAttribute('viewBox', '0 0 240 ' + h);
-            bridgeSvg.innerHTML = '';
-            const pitch = 22;
-            const count = Math.max(2, Math.floor((h - 32) / pitch) + 1);
-            for (let i = 0; i < count; i++) {
-                const isRight = (i % 2 === 0);
-                const x = isRight ? 121.5 : 107.5;
-                const y = 6.0 + i * pitch;
-                const g = appendStep(bridgeSvg, isRight, 'fp-club', x, y, isRight ? -4.0 : 4.0, (i % 6) * 0.18, 'bridge-step');
-                stepObserver.observe(g);
-            }
-        }
-        buildContinuousBridgeFootprints();
-        window.addEventListener('load', buildContinuousBridgeFootprints);
-        window.addEventListener('resize', buildContinuousBridgeFootprints);
+        <div class="team-credit-note note-ra-team fade-in-up">
+          <strong>【学生寮RA（3人チーム）での活動について】</strong><br>
+          寮のイベント運営はRAメンバー3人で協力して行いました。<br>私は主に<strong>イベントの企画立案と告知ポスターのイラスト制作</strong>を担当し、事務作業や本部への報告、寮内での実際の告知・運営サポートなどは頼もしい仲間2人が担ってくれました。
+        </div>
+        <div class="timeline-single">
+          <!-- #01 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#01</span><span class="node-date">2023.04</span><span class="node-cat cat-ra">学生寮RA</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/2b.png" alt="新入寮生歓迎会" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">新入寮生歓迎会（たこ焼きパーティ）</h3>
+            <p class="node-desc">親元を離れて緊張している新入寮生が、最初の一歩を踏み出しやすくなるよう企画した歓迎会です。ただ食事をするだけでなく、同じテーブルのメンバーと自然に会話やツッコミが生まれるよう、一般知識から「寮のちょっとマニアックなクイズ」、さらには「告知ポスターをよく見ていないと気づかない問題」を協力型クイズとして仕掛け、笑顔と安心感のあるスタートを作りました。<br>また、開催までの日数を毎日異なるカウントダウンイラストで飾ってワクワク感を演出する試みは、のちに高く評価され、東京（武蔵野美術大学寮など）を中心とした全国の多くの寮に導入されました。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
+          <!-- #02 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#02</span><span class="node-date">2023.05</span><span class="node-cat cat-ra">学生寮RA</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/9b.png" alt="夜の試写会" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">夜の試写会</h3>
+            <p class="node-desc">コロナ禍の制限が明け、みんなで集まれるようになったタイミングに合わせ、寮に新しく導入したプロジェクターの機材確認も兼ねて開催した試写会です。<br>告知ポスターでも「夜にひっそりと小規模で上映するワクワク感」を演出し、部屋からふらっと集まって同じ物語を共有する時間を作りました。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
+          <!-- #03 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#03</span><span class="node-date">2023.08</span><span class="node-cat cat-ra">学生寮RA</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/10b.png" alt="夏の映画上映会" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">夏の映画上映会</h3>
+            <p class="node-desc">春の試写会での反響を受け、サブウーファーの追加導入など音響や投影環境をさらにアップグレードして開催した夏のシアター企画です。長編映画3本をゆったり楽しめるよう美味しい食事も用意し、夏休みの寮に特別な非日常空間をプロデュースしました。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
+          <!-- #04 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#04</span><span class="node-date">2023.10</span><span class="node-cat cat-ra">学生寮RA</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/20b.jpg" alt="Finding Ghosts" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">Finding Ghosts</h3>
+            <p class="node-desc">大人数のパーティが少し苦手な人でも、自分のペースでこっそりイベントを楽しめるようにと考えたリアル探索ゲームです。<br>描き下ろした13匹のお化けイラストを寮のあちこちに隠し、日常の移動時間を「宝探し」に変える仕掛けを作りました。<br>すべて正確に見つけ出した人には、一人ひとり別のお化けを手描きした「1点もののイラスト＆メッセージカード」とプレゼントを贈りました。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
+          <!-- #05 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#05</span><span class="node-date">2023.12</span><span class="node-cat cat-ra">学生寮RA</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/23b.png" alt="クリスマスあたたまり会" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">クリスマスあたたまり会（鍋パーティ）</h3>
+            <p class="node-desc">寒さが厳しくなる12月に、温かい湯気を囲んで心も体もほぐれる場所を作りたいと企画した鍋パーティです。<br>ポスターにも温かみのあるユーモアを込め、1年の締めくくりにみんなで食卓を囲む賑やかな夜になりました。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
+          <!-- #06 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#06</span><span class="node-date">2024.02</span><span class="node-cat cat-ra">学生寮RA</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/26b.jpeg" alt="鬼探し" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">鬼探し</h3>
+            <p class="node-desc">ハロウィンの「お化け探し」が好評だったことから生まれた探索シリーズ第2弾です。節分に合わせて個性豊かな10匹の鬼を描き下ろし、「どこに隠れているんだろう？」と寮生同士の会話が弾むきっかけを作りました。<br>ポスターと隠す鬼のイラストを「墨絵」モチーフにしたことで風景に溶け込みやすくなり、ハロウィンよりも少し歯ごたえのある難易度に仕立てています。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
+          <!-- #07 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#07</span><span class="node-date">2024.04</span><span class="node-cat cat-ra">学生寮RA（2年目）</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/24b.png" alt="新入寮生歓迎会 2024" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">新入寮生歓迎会（たこ焼きパーティ＆広島案内クイズ）</h3>
+            <p class="node-desc">2年目の歓迎会は、前年の内容をさらにアップデートして開催しました。既存のクイズに加え、初めて広島で一人暮らしを始める新入生が街に出るのが楽しくなるような「ご当地クイズや周辺のおすすめスポット案内」を盛り込み、新生活の不安をワクワクに変える工夫を凝らしました。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-ra"></svg>
+          <!-- #08 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#08</span><span class="node-date">2024.05</span><span class="node-cat cat-ra">学生寮RA</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/12b.jpg" alt="母の日イベント" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+            <h3 class="node-title">母の日イベント</h3>
+            <p class="node-desc">いつもイベントを楽しんでくれる寮生だけでなく、「遠くで見守る親御さん」や「毎日を支えてくれる寮母さん」にも喜んでもらいたいと考案した企画です。普段は照れくさくて言えない感謝の言葉を手紙にし、お母さんへは郵送で、寮母さんへは直接手渡しで届ける温かい循環を作りました。<br>この企画は、前述のカウントダウン演出とともに全国のRAの中でユニークな取り組みとして紹介され、様々な寮に取り入れられました。</p>
+          </div>
+          </div>
+        </div>
+        <!-- Phase 2: 2024.06 〜 2025.02（左右2列並走） -->
+        <div class="phase-divider fade-in-up">
+          <span class="phase-period">2024.06 — 2025.02</span>
+          <span class="phase-label">学生寮RA × 芸術・イラスト同好会 並走期</span>
+        </div>
+        <svg class="branch-connector-svg fade-in-up" viewBox="0 0 560 64">
+          <path class="branch-line" d="M 280 0 C 280 32, 120 32, 120 64" stroke="rgba(28, 43, 68, 0.25)" />
+          <path class="branch-line" d="M 280 0 C 280 32, 440 32, 440 64" stroke="rgba(214, 61, 51, 0.3)" />
+        </svg>
+        <div class="branch-guide fade-in-up">
+          <span class="branch-left">◀ 学生寮RA（2年目）</span>
+          <span class="branch-right">芸術・イラスト同好会 ▶</span>
+        </div>
+        <div class="timeline-parallel">
+          <!-- 左列：学生寮RA -->
+          <div class="parallel-stream-col left-stream">
+            <span class="mobile-stream-label label-ra">◀ 学生寮RA（2年目）</span>
+            <!-- #09 -->
+            <div class="tl-node left-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#09</span><span class="node-date">2024.06</span><span class="node-cat cat-ra">学生寮RA</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/14b.jpg" alt="父の日イベント" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">父の日イベント</h3>
+            <p class="node-desc">母の日企画で生まれた温かい空気を引き継ぎ、6月はお父さんや寮長さんへ感謝の手紙を届ける企画を実施しました。<br>ポスターも母の日と対になるトーンで描き下ろし、寮の中と外を繋ぐ優しいコミュニケーションの場になりました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
+            <!-- #11 -->
+            <div class="tl-node left-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#11</span><span class="node-date">2024.07 — 08</span><span class="node-cat cat-ra">学生寮RA</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/51.PNG" alt="2024年 夏の映画上映会" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">夏の映画上映会</h3>
+            <p class="node-desc">2年目の夏も、すっかり寮の定番となったナイトシアターを開館しました。お気に入りのポスターアートとともに、「夏といえばこの上映会」と寮生が自然に集まってくつろげる、夏の風物詩のような空間になりました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
+            <!-- #13（てづくりハロウィンの左隣に Finding Ghosts の 20b.jpg を追加し横3枚並びに） -->
+            <div class="tl-node left-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#13</span><span class="node-date">2024.10</span><span class="node-cat cat-ra">学生寮RA</span></div>
+              <div class="node-visuals cols-3-row">
+                <div class="visual-frame"><img src="images/20b.jpg" alt="Finding Ghosts" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/11b.jpg" alt="てづくりハロウィン" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/19b.jpg" alt="Making-o'-Lantern" onerror="tryNextExt(this)" /></div>
+              </div>
+              <div class="node-sub-visuals">
+                <div class="visual-frame"><img src="images/54.jpg" alt="ハロウィン風景 1" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/55.jpg" alt="ランタンづくり風景 2" onerror="tryNextExt(this)" /></div>
+              </div>
+              <div class="node-body">
+            <h3 class="node-title">ハロウィン3大企画（Find Ghosts / てづくりハロウィン / Making-o'-Lantern）</h3>
+            <p class="node-desc">2年目のハロウィンは本場海外の賑やかなハロウィン文化に着目し、「寮全体をひとつのハロウィンムードに染める」大型企画へと進化させました。<br>恒例の「13匹のお化け探し」に加え、粘土や折り紙での空間装飾、みんなで巨大なカボチャを作る「Making-o'-Lantern」を計3週にわたって展開し、「見る・探す・作る」のどこからでも参加できるイベントを設計しました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
+            <!-- #15 -->
+            <div class="tl-node left-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#15</span><span class="node-date">2024.11</span><span class="node-cat cat-ra">学生寮RA</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/38b.png" alt="餃子パーティ" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">餃子パーティ</h3>
+            <p class="node-desc">「一緒に手を動かす作業があると、自然と関わりが生まれる」という気づきから企画したクッキングイベントです。<br>みんなでタネを混ぜて皮に包み、ホットプレートで焼き上げるまでの共同作業を通じて、笑いが絶えない温かい食卓を作りました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
+            <!-- #16 -->
+            <div class="tl-node left-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#16</span><span class="node-date">2024.12</span><span class="node-cat cat-ra">学生寮RA</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/23b.png" alt="クリスマス・鍋・プレゼント交換会" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">クリスマス映画上映会・鍋パーティ・プレゼント交換会</h3>
+            <p class="node-desc">2年目のクリスマスは、海外の家庭のクリスマスレクリエーションを参考に、映画と鍋の団らんへ「ランダムプレゼント交換会」の仕掛けをプラスしました。<br>誰の手に渡るかわからない状態でプレゼントとメッセージカードを用意してもらい、開封する瞬間のドキドキ感とサプライズを演出しました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
+            <!-- #17 -->
+            <div class="tl-node left-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#17</span><span class="node-date">2025.02</span><span class="node-cat cat-ra">学生寮RA</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/27b.jpeg" alt="鬼探し" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">鬼探し</h3>
+            <p class="node-desc">RAとして最後の企画となった、節分の寮内探索ゲームです。<br>2年間続けてきた探索シリーズも寮の恒例行事としてすっかり定着し、日常の空間に遊び心を忍ばせる楽しさを改めて実感した企画となりました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-ra"></svg>
+            <!-- #18 -->
+            <div class="tl-node left-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#18</span><span class="node-date">2025.02</span><span class="node-cat cat-ra">学生寮RA（集大成・引退）</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/59.jpeg" alt="全国RAサミット（東京）発表" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">2024年度全国RAサミット（東京）にて発表・RA引退</h3>
+            <p class="node-desc">仲間のRAメンバーによる生活サポートとともに歩んだ2年間の集大成として、全国のRAが集まる東京のサミットに登壇しました。<br>「寮を思い出づくりの場にする」ために続けてきたイベント企画と、描き下ろした約20点の告知ポスターについて発表を行い、RAの活動を締めくくりました。</p>
+          </div>
+            </div>
+          </div>
+          <!-- 右列：芸術・イラスト同好会 -->
+          <div class="parallel-stream-col right-stream">
+            <span class="mobile-stream-label label-club">芸術・イラスト同好会 ▶</span>
+            <!-- #10 -->
+            <div class="tl-node right-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#10</span><span class="node-date">2024.06</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/34b.png" alt="芸術・イラスト同好会設立" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">「芸術・イラスト同好会」設立・初代主将に就任</h3>
+            <p class="node-desc">寮生がふとこぼした「絵を描きたいけれど、大学に芸術系の部活がなくて寂しい。絵で何か活躍したい」という一言がすべての始まりでした。<br>過去に芸術部・イラスト部・漫画研究部などが乱立し、人数分散で廃部になった経緯を踏まえ、絵画・イラストからデジタル作品まで「表現したい人が誰でも集まれる場所」として同好会を立ち上げ、大学公認を獲得しました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
+            <!-- #12 -->
+            <div class="tl-node right-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#12</span><span class="node-date">2024.07</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
+              <div class="node-visuals cols-2">
+                <div class="visual-frame"><img src="images/52.jpg" alt="清掃前の旧部室 Before" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/53.jpeg" alt="再生したアトリエ After" onerror="tryNextExt(this)" /></div>
+              </div>
+              <div class="node-body">
+            <h3 class="node-title">廃部室の一斉清掃</h3>
+            <p class="node-desc">同好会のスタートは、約10年間使われずに眠っていた旧部室の大掃除から始まりました。廃部以来のゴミやホコリでいっぱいだった部屋を初期メンバーと汗を流して一斉に片付け、誰もが自由に画材を広げて創作に没頭できる、新しいアトリエへと再生させました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
+            <!-- #14 -->
+            <div class="tl-node right-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#14</span><span class="node-date">2024.10</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
+              <div class="node-visuals cols-3">
+                <div class="visual-frame"><img src="images/56.jpeg" alt="2024大学祭展示 1" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/57.jpeg" alt="2024大学祭展示 2" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/58.jpeg" alt="2024大学祭展示 3" onerror="tryNextExt(this)" /></div>
+              </div>
+              <div class="node-body">
+            <h3 class="node-title">大学祭 作品展示</h3>
+            <p class="node-desc">設立から4ヶ月で迎えた初めての大学祭展示です。<br>水彩画や鉛筆画、粘土といったアナログ作品から、プログラミングによって映像が不思議に歪む「スリットスキャンカメラ」まで、ジャンルの垣根を超えた作品を並べ、<br>「芸術を見るだけでなく体験するギャラリー」を作り上げました。</p>
+          </div>
+            </div>
+            <!-- 2024.10〜2025.04の空白期間を実寸サイズで一直線につなぐ赤い足跡 -->
+            <div class="club-continuation-bridge" id="club-continuation-bridge">
+              <svg class="club-continuous-svg" id="club-continuous-svg"></svg>
+            </div>
+          </div>
+        </div>
+        <!-- Phase 3: 2025.04 〜 2025.10（右列継続：同好会 2年目） -->
+        <div class="phase-divider fade-in-up">
+          <span class="phase-period">2025.04 — 2025.10</span>
+          <span class="phase-label">芸術・イラスト同好会 2年目｜来場者も一緒に楽しめる空間へ</span>
+        </div>
+        <div class="timeline-right-only">
+          <div class="parallel-stream-col right-stream">
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
+            <!-- #19 -->
+            <div class="tl-node right-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#19</span><span class="node-date">2025.04</span><span class="node-cat cat-club">芸術・イラスト同好会</span></div>
+              <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/65.jpeg" alt="新入生歓迎会" onerror="tryNextExt(this)" /></div></div>
+              <div class="node-body">
+            <h3 class="node-title">新入生歓迎会（体験展示＆落書きスペース）</h3>
+            <p class="node-desc">2年目の春は、来場者自身にも「作品を作る体験」をしてもらう仕掛けとして、会場に黒板サイズの巨大な「落書きスペース」を設置しました。<br>訪れた新入生が自由にペンを取って描き込める参加型の空間にしたことで、「見る・体験する・作る」の3軸が完成し、同好会の輪がさらに大きく広がりました。</p>
+          </div>
+            </div>
+            <svg class="col-straight-steps observe-steps" data-trail="straight" data-color="fp-club"></svg>
+            <!-- #20 -->
+            <div class="tl-node right-node fade-in-up">
+              <div class="node-meta"><span class="node-num">#20</span><span class="node-date">2025.10</span><span class="node-cat cat-club">芸術・イラスト同好会（主将引退）</span></div>
+              <div class="node-visuals cols-3">
+                <div class="visual-frame"><img src="images/60.jpeg" alt="2025大学祭展示 1" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/61.jpeg" alt="2025大学祭展示 2" onerror="tryNextExt(this)" /></div>
+                <div class="visual-frame"><img src="images/62.jpeg" alt="2025大学祭展示 3" onerror="tryNextExt(this)" /></div>
+              </div>
+              <div class="node-body">
+            <h3 class="node-title">大学祭 展示 ＆ 主将引退</h3>
+            <p class="node-desc">2度目の大学祭展示です。<br>イラスト展示や巨大落書き壁、スリットスキャンカメラといった<br>「見る・体験する・作る」の軸に加え、部員が制作した「レーザーハープ（平沢進モチーフ）」やコンテスト応募作品など、多様な才能がぶつかり合う空間となり、この展示をもって初代主将のバトンを後輩へ託しました。</p>
+          </div>
+            </div>
+          </div>
+        </div>
+        <!-- Phase 4: 2026.04 〜 現在（中央1列に合流：日付→画像→下に説明文） -->
+        <svg class="branch-connector-svg fade-in-up" viewBox="0 0 560 64" style="margin-top: 1.5em; margin-bottom: -0.8em;">
+          <path class="branch-line" d="M 440 0 C 440 32, 280 32, 280 64" stroke="rgba(44, 93, 99, 0.35)" />
+        </svg>
+        <div class="phase-divider fade-in-up">
+          <span class="phase-period">2026.04 — PRESENT</span>
+          <span class="phase-label">大学院・個人制作・プロジェクト</span>
+        </div>
+        <div class="timeline-single grad-stream">
+          <!-- #21（タイトルのすぐ右隣にKyoto Design Labの小さな画像枠を配置：images/66.jpeg） -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#21</span><span class="node-date">2026.04</span><span class="node-cat cat-grad">Graduate / Lab</span></div>
+            <div class="node-body">
+              <div class="lab-title-row">
+                <h3 class="node-title">京都工芸繊維大学大学院 入学 <br>＆ Kyoto Design Lab techメンバー就任</h3>
+                <div class="visual-frame small-lab-inline"><img src="images/66.jpeg" alt="Kyoto Design Lab" onerror="tryNextExt(this)" /></div>
+              </div>
+              <p class="node-desc">さらなる表現とインターフェース設計の可能性を広げるため、京都工芸繊維大学大学院へ進学。あわせてKyoto Design Labのtechメンバーとなりました。</p>
+            </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-grad"></svg>
+          <!-- #22 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#22</span><span class="node-date">2026.07</span><span class="node-cat cat-grad">Game</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/game2.png" alt="Chew! Blow! Poo!" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+              <h3 class="node-title">個人制作ゲーム『Chew! Blow! Poo!』公開</h3>
+              <p class="node-desc">ポップなカートゥーン調の世界観の中に、「次々と迫るタスクとリスク管理のジレンマ」を詰め込んだ2Dアクションゲームを制作・公開しました。シンプルな操作ながら、焦れば焦るほどミスをしてしまう「愉快なパニック体験」を設計しています。</p>
+              <a href="games.html" class="node-link"><i class="fas fa-gamepad"></i> Gamesページで詳しく見る →</a>
+            </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-grad"></svg>
+          <!-- #23 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#23</span><span class="node-date">2026.07</span><span class="node-cat cat-grad">Project</span></div>
+            <div class="node-visuals same-height-pair">
+              <div class="visual-frame"><img src="images/63.png" alt="沖縄 So-smart Project 1" onerror="tryNextExt(this)" /></div>
+              <div class="visual-frame"><img src="images/64.PNG" alt="沖縄 So-smart Project 2" onerror="tryNextExt(this)" /></div>
+            </div>
+            <div class="node-body">
+            <h3 class="node-title">沖縄環境プロジェクト「So-smart Project」参加</h3>
+            <p class="node-desc">国内外6大学が連携し、環境にやさしいスマート交通の実現を目指す国際共同プロジェクト「SO-SMART」に参加しました。<br>CO2排出量の少ない移動手段を選ぶとエコポイントが貯まり、アプリ内のキャラクター「シーサーちゃん」の表情が変化するゲーミフィケーション設計において、「どうすれば楽しみながら行動を変えてもらえるか」の企画議論や画面デザインの一部、沖縄現地での実証実験の調整に携わりました。</p>
+          </div>
+          </div>
+          <svg class="s-curve-connector observe-steps" data-trail="s-curve" data-color="fp-grad"></svg>
+          <!-- #24 -->
+          <div class="tl-node center-node fade-in-up">
+            <div class="node-meta"><span class="node-num">#24</span><span class="node-date">2026.10</span><span class="node-cat cat-grad">Game</span></div>
+            <div class="node-visuals cols-1"><div class="visual-frame"><img src="images/game3.jpg" alt="UNTIL MOM COMES HOME" onerror="tryNextExt(this)" /></div></div>
+            <div class="node-body">
+              <h3 class="node-title">『UNTIL MOM COMES HOME — ママが帰るまで —』公開</h3>
+              <p class="node-desc">手描きイラストとAI実写化を何層も塗り重ねた「ミルフィーユ手法」により、手描きの空気感を残したまま不気味なリアリティを追求した短編ブラウザホラーゲームです。<br>減り続けるバッテリーがプレイヤーの視線を「スマホ操作」へと注目させ、奥から迫るぬいぐるみを必然的に「視界の端」で捉えさせる視覚誘導を仕掛けました。<br>色彩で位置が簡単にバレないよう雷光のモノクロ表現に絞ることで、「視界の端でなんとなく近づく気配はわかるのに、はっきり見えた時にはもう目の前にいる」という焦燥感を生み出しています。</p>
+              <a href="games.html" class="node-link"><i class="fas fa-gamepad"></i> Gamesページで詳しく見る →</a>
+            </div>
+          </div>
+        </div>
+        <!-- 単体イラスト制作の補足枠（UNTIL MOM COMES HOMEの紹介の下・小さめ配置） -->
+        <div class="team-credit-note note-artwork fade-in-up">
+          <strong>【単体のイラスト制作・アートワークについて】</strong><br>
+          本ページに掲載している企画・展示のほか、広島県の他大学合同ライブのポスターや<br>大学主催イベントのメインビジュアルなど、単体でのイラスト制作も幅広く手掛けています。<br>描き下ろしたポスターやイラスト作品は <a href="works.html" class="node-link" style="margin-top: 0;">Worksページ</a> にて公開しています。
+        </div>
+        <!-- 一番下の細い一言メッセージ -->
+        <p class="activities-closing-line fade-in-up">
+          イラストも、空間の仕掛けも、ゲームも。見る人・遊ぶ人の心がふっと動く作品を、これからも制作していきます！
+        </p>
+      </div>
+    </section>
+  </div>
+  <site-footer id="site-footer">
+    <div class="inner">
+      <ul class="copyright">
+        <li>&copy; Morichiku's Gallery</li>
+        <li>Design based on: HTML5 UP</li>
+      </ul>
+    </div>
+  </site-footer>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const leaveCover = document.createElement('div');
+    leaveCover.className = 'page-leave-cover';
+    document.body.appendChild(leaveCover);
+    document.querySelectorAll('.global-nav a').forEach(a => {
+      a.addEventListener('click', function(e) {
+        if (this.href === location.href) return;
+        e.preventDefault();
+        document.body.classList.add('is-leaving');
+        setTimeout(() => { location.href = this.href; }, 500);
+      });
     });
-    window.addEventListener('pageshow', function(e) {
-        if (e.persisted) document.body.classList.remove('is-leaving');
-    });
-    </script>
+    const ns = 'http://www.w3.org/2000/svg';
+    function addFoot(svg, isR, col, x, y, ang, d, cls) {
+      const g = document.createElementNS(ns, 'g');
+      g.setAttribute('class', (cls || 'step-fp') + ' ' + col);
+      g.style.transitionDelay = d.toFixed(2) + 's';
+      const u = document.createElementNS(ns, 'use');
+      u.setAttribute('href', isR ? '#foot-right' : '#foot-left');
+      u.setAttribute('width', '11'); u.setAttribute('height', '20');
+      u.setAttribute('x', x.toFixed(1)); u.setAttribute('y', y.toFixed(1));
+      u.setAttribute('transform', `rotate(${ang.toFixed(1)} ${(x+5.5).toFixed(1)} ${(y+10).toFixed(1)})`);
+      g.appendChild(u); svg.appendChild(g);
+      return g;
+    }
+    function sampleBezier(segs, n, m) {
+      const tbl = []; let c = 0, px = null, py = null;
+      segs.forEach(([p0, p1, p2, p3], si) => {
+        for (let i = (si ? 1 : 0); i <= 200; i++) {
+          const t = i / 200, u = 1 - t;
+          const x = u*u*u*p0[0] + 3*u*u*t*p1[0] + 3*u*t*t*p2[0] + t*t*t*p3[0];
+          const y = u*u*u*p0[1] + 3*u*u*t*p1[1] + 3*u*t*t*p2[1] + t*t*t*p3[1];
+          const dx = 3*u*u*(p1[0]-p0[0]) + 6*u*t*(p2[0]-p1[0]) + 3*t*t*(p3[0]-p2[0]);
+          const dy = 3*u*u*(p1[1]-p0[1]) + 6*u*t*(p2[1]-p1[1]) + 3*t*t*(p3[1]-p2[1]);
+          if (px !== null) c += Math.hypot(x - px, y - py);
+          tbl.push([c, x, y, dx, dy]); px = x; py = y;
+        }
+      });
+      const tot = tbl[tbl.length - 1][0], s0 = m, s1 = tot - m, res = [];
+      for (let k = 0; k < n; k++) {
+        const trg = s0 + (s1 - s0) * (k / (n - 1));
+        let lo = 0, hi = tbl.length - 1;
+        while (lo < hi) { const mid = (lo + hi) >> 1; if (tbl[mid][0] < trg) lo = mid + 1; else hi = mid; }
+        const [, x, y, dx, dy] = tbl[lo], ang = Math.atan2(-dx, dy) * 180 / Math.PI;
+        const l = Math.hypot(dx, dy) || 1, ux = dx / l, uy = dy / l, isR = (k % 2 === 1);
+        res.push([x + (isR ? -uy : uy)*5.5 - 5.5, y + (isR ? ux : -ux)*5.5 - 10, ang]);
+      }
+      return res;
+    }
+    const stepObs = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-step-visible'); stepObs.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
+    function renderTrails() {
+      const mob = innerWidth <= 768;
+      document.querySelectorAll('svg[data-trail]').forEach(svg => {
+        const type = svg.getAttribute('data-trail'), col = svg.getAttribute('data-color') || 'fp-ra';
+        svg.innerHTML = '';
+        if (mob && type.startsWith('s-curve')) {
+          svg.style.height = '76px'; svg.style.margin = '0.2em auto';
+          svg.setAttribute('viewBox', '0 0 240 80');
+          for (let i = 0; i < 4; i++) addFoot(svg, i%2===1, col, i%2?123.5:105.5, 6+i*16.5, i%2?-6:6, 0.12+i*0.2);
+        } else if (type === 's-curve') {
+          const prev = svg.previousElementSibling, b = prev ? prev.querySelector('.node-body') : null;
+          const bh = (b && b.offsetHeight > 40) ? b.offsetHeight : 140;
+          const topO = bh + 45, botO = 115, gap = 80, th = topO + gap + botO, my = topO + gap * 0.5;
+          svg.style.height = th + 'px'; svg.style.marginTop = -topO + 'px'; svg.style.marginBottom = -botO + 'px';
+          svg.setAttribute('viewBox', '0 0 900 ' + th);
+          const segs = [[[265,20],[75,20],[70,topO+10],[275,my-10]], [[275,my-10],[390,my],[510,my],[625,my+10]], [[625,my+10],[825,my+30],[820,th-20],[635,th-20]]];
+          const n = Math.max(16, Math.min(22, Math.round(th / 20)));
+          sampleBezier(segs, n, 24).forEach((p, i) => addFoot(svg, i%2===1, col, p[0], p[1], p[2], 0.12+i*0.15));
+        } else if (type === 'straight') {
+          svg.setAttribute('viewBox', '0 0 240 100');
+          const sr = (col === 'fp-club');
+          for (let i = 0; i < 5; i++) {
+            const isR = sr ? (i%2===0) : (i%2===1);
+            addFoot(svg, isR, col, isR?121.5:107.5, 6+i*17, isR?-4:4, 0.15+i*0.22);
+          }
+        }
+      });
+      const bc = document.getElementById('club-continuation-bridge'), bs = document.getElementById('club-continuous-svg');
+      if (bc && bs && !mob) {
+        const h = Math.max(300, bc.clientHeight);
+        bs.setAttribute('height', h); bs.setAttribute('viewBox', '0 0 240 ' + h); bs.innerHTML = '';
+        const cnt = Math.max(2, Math.floor((h - 32) / 22) + 1);
+        for (let i = 0; i < cnt; i++) {
+          const isR = (i % 2 === 0);
+          stepObs.observe(addFoot(bs, isR, 'fp-club', isR?121.5:107.5, 6+i*22, isR?-4:4, (i%6)*0.18, 'bridge-step'));
+        }
+      }
+    }
+    renderTrails();
+    window.addEventListener('load', renderTrails);
+    window.addEventListener('resize', renderTrails);
+    const obs = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    document.querySelectorAll('.fade-in-up, .observe-steps').forEach(el => obs.observe(el));
+  });
+  window.addEventListener('pageshow', e => { if (e.persisted) document.body.classList.remove('is-leaving'); });
+  </script>
 </body>
 </html>
